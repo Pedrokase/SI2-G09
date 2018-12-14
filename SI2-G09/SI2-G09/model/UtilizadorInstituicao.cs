@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace SI2_G09.model
 {
-    class UtilizadorInstituicao
+    public class UtilizadorInstituicao
     {
+        public virtual Instituicao Instituicao { get; set; }
+
+        public virtual Utilizador Utilizador { get; set; }
+
     }
 }

@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace SI2_G09.model
 {
-    class RevisorArtigo
+    public class RevisorArtigo
     {
+        public virtual Utilizador Revisor { get; set; }
+
+        public virtual Artigo ArtigoRevisto { get; set; }
+
+        public int Nota { get; set; }
+
+        public string Texto { get; set; }
+
     }
 }
