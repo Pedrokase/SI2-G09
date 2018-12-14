@@ -43,11 +43,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="concrete\Context.cs" />
+    <Compile Include="dal\IContext.cs" />
+    <Compile Include="dal\IRepository.cs" />
+    <Compile Include="mapper\AbstracMapper.cs" />
+    <Compile Include="mapper\IMapper.cs" />
+    <Compile Include="model\Artigo.cs" />
+    <Compile Include="model\Autor.cs" />
+    <Compile Include="model\AutorArtigo.cs" />
+    <Compile Include="model\Conferencia.cs" />
+    <Compile Include="model\ConferenciaUtilizador.cs" />
+    <Compile Include="model\FicheiroPDF.cs" />
+    <Compile Include="model\Instituicao.cs" />
+    <Compile Include="model\Revisor.cs" />
+    <Compile Include="model\RevisorArtigo.cs" />
+    <Compile Include="model\Utilizador.cs" />
+    <Compile Include="model\UtilizadorInstituicao.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

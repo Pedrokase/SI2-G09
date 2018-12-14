@@ -8,5 +8,6 @@ namespace SI2_G09.model
 {
     class Instituicao
     {
+
     }
 }
