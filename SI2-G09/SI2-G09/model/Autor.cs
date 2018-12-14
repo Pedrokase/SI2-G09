@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SI2_G09.model
 {
-    class Autor
+    public class Autor
     {
+		public Utilizador Utilizador { get; set; }
     }
 }
