@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SI2_G09.model
 {
-    class Revisor
+    public class Revisor
     {
+        public int userID { get; set; }
     }
 }

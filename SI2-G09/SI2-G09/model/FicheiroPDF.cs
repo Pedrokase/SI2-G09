@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace SI2_G09.model
 {
-    class FicheiroPDF
+    public class FicheiroPDF
     {
+        public int fileVersion { get; set; }
+        public int ID { get; set; }
+        public int conferenceID { get; set; }
     }
 }
