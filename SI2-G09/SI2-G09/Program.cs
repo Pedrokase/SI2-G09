@@ -12,7 +12,7 @@ namespace SI2_G09
 
 		static void Main(string[] args)
 		{
-           string connectionString = @"Data Source=.;Initial Catalog=SI2;"
+           string connectionString = @"Data Source=.;Initial Catalog=SI2_T1;"
             + "Integrated Security=true;Max Pool Size=10";
 
             using (Context ctx = new Context(connectionString))

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SI2_G09.model
+namespace SI2_G09.mapper
 {
-    public class Revisor
+    class RevisorProxy
     {
-        public virtual Utilizador UserID { get; set; }
     }
 }

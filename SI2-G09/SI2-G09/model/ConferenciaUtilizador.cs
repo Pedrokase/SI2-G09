@@ -8,9 +8,9 @@ namespace SI2_G09.model
 {
     public class ConferenciaUtilizador
     {
-        public int userID { get; set; }
-        public int conferenceID { get; set; }
-        public DateTime dataRegisto { get; set; }
+        public virtual Utilizador UserID { get; set; }
+        public virtual Conferencia ConferenceID { get; set; }
+        public DateTime DataRegisto { get; set; }
 
     }
 }

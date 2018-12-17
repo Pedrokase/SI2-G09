@@ -44,10 +44,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="concrete\Context.cs" />
+    <Compile Include="dal\IArtigoRepository.cs" />
+    <Compile Include="dal\IAutorArtigoRepository.cs" />
+    <Compile Include="dal\IAutorRepository.cs" />
+    <Compile Include="dal\IConferenciaRepository.cs" />
     <Compile Include="dal\IContext.cs" />
     <Compile Include="dal\IRepository.cs" />
     <Compile Include="mapper\AbstracMapper.cs" />
+    <Compile Include="mapper\ConferenciaUtilizadorProxy.cs" />
+    <Compile Include="mapper\FicheiroPDFProxy.cs" />
+    <Compile Include="mapper\IArtigoMapper.cs" />
+    <Compile Include="mapper\IAutorArtigoMapper.cs" />
+    <Compile Include="mapper\IAutorMapper.cs" />
+    <Compile Include="mapper\IConferenciaMapper.cs" />
     <Compile Include="mapper\IMapper.cs" />
+    <Compile Include="mapper\RevisorProxy.cs" />
     <Compile Include="model\Artigo.cs" />
     <Compile Include="model\Autor.cs" />
     <Compile Include="model\AutorArtigo.cs" />

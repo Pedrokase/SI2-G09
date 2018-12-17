@@ -8,8 +8,7 @@ namespace SI2_G09.model
 {
     public class FicheiroPDF
     {
-        public int fileVersion { get; set; }
-        public int ID { get; set; }
-        public int conferenceID { get; set; }
+        public int FileVersion { get; set; }
+        public virtual Artigo ArtigoFicheiroPDF { get; set; }
     }
 }
