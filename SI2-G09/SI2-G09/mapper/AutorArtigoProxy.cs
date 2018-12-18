@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SI2_G09.mapper
 {
-    class AutorArtigoPeoxy
+    class AutorArtigoProxy
     {
     }
 }
