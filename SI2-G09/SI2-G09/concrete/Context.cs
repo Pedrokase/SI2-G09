@@ -13,27 +13,36 @@ using System;
 using System.Transactions;
 using System.Data;
 using System.Data.SqlClient;
+using SI2_G09.concrete;
 
 namespace DAL.concrete
 {
-    class Context: IContext
+    class Context : IContext
     {
         private string connectionString;
         private SqlConnection con = null;
 
-        private CountryRepository _countryRepository;
-        private CourseRepository _courseRepository;
-        private StudentRepository _studentRepository;
+        private ArtigoRepository _artigoRepository;
+        private AutorRepository _autorRepository;
+        private AutorArtigoRepository _autorArtigoRepository;
 
-      
+
         public Context(string cs)
         {
             connectionString = cs;
-            _countryRepository = new CountryRepository(this);
-            _courseRepository = new CourseRepository(this);
-            _studentRepository = new StudentRepository(this);
+            _artigoRepository = new ArtigoRepository(this);
+            _autorRepository = new AutorRepository(this);
+            _autorArtigoRepository = new AutorArtigoRepository(this);
+            _conferenciaRepository = new ConferenciaRepository(this);
+            _conferenciaUtilizadorRepository = new ConferenciaUtilizadorRepository(this);
+            _ficheiroPDFRepository = new FicheiroPDFRepository(this);
+            _instituicaoRepository = new InstituicaoRepository(this);
+            _revisorRepository = new RevisorRepository(this);
+            _revisorArtigoRepository = new RevisorArtigoRepository(this);
+            _utilizadorRepository = new UtilizadorRepository(this);
+            _utilizadorInstituicaoRepository = new UtilizadorInstituicaoRepository(this);
         }
-        
+
         public void Open()
         {
             if (con == null)
@@ -61,38 +70,100 @@ namespace DAL.concrete
 
         }
 
-       public void EnlistTransaction()
+        public void EnlistTransaction()
         {
             if (con != null)
             {
-                con.EnlistTransaction(Transaction.Current);               
+                con.EnlistTransaction(Transaction.Current);
             }
         }
 
-        public CountryRepository Countries
+        public AutorRepository Autores
         {
             get
             {
-                return _countryRepository;
+                return _autorRepository;
             }
         }
 
-        public CourseRepository Courses
+        public ArtigoRepository Artigos
         {
             get
             {
-                return _courseRepository;
+                return _artigoRepository;
             }
         }
 
-        public StudentRepository Students
+        public AutorArtigoRepository AutorArtigos
         {
             get
             {
-                return _studentRepository;
+                return _autorArtigoRepository;
             }
         }
 
+        public ConferenciaRepository Conferencias
+        {
+            get
+            {
+                return _conferenciaRepository;
+            }
+        }
 
+        public ConferenciaUtilizadorRepository
+        {
+            get
+            {
+                return _conferenciaUtilizadorRepository;
+            }
+        }
+
+        public FicheiroPDFRepository FicheirosPDF
+        {
+            get
+            {
+                return _ficheiroPDFRepository;
+            }
+        }
+
+        public InstituicaoRepository Instituicoes 
+        {
+            get
+            {
+                return _instituicaoRepository;
+            }
+        }
+
+        public RevisorRepository Revisores 
+        {
+            get
+            {
+                return _revisorRepository;
+            }
+        }
+
+        public RevisorArtigoRepository RevisorArtigos
+        {
+            get
+            {
+                return _revisorArtigoRepository;
+            }
+        }
+
+        public UtilizadorRepository Utilizadores
+        {
+            get
+            {
+                return _utilizadorRepository;
+            }
+        }
+
+        public UtilizadorInsituicaoRepository UtilizadoInstituicoes 
+        {
+            get
+            {
+                return _utilizadorInstituicaoRepository;
+            }
+        }
     }
 }
