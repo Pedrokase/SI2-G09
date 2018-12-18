@@ -25,6 +25,14 @@ namespace DAL.concrete
         private ArtigoRepository _artigoRepository;
         private AutorRepository _autorRepository;
         private AutorArtigoRepository _autorArtigoRepository;
+        private ConferenciaRepository _conferenciaRepository;
+        private ConferenciaUtilizadorRepository _conferenciaUtilizadorRepository;
+        private FicheiroPDFRepository _ficheiroPDFRepository;
+        private InstituicaoRepository _instituicaoRepository;
+        private RevisorRepository _revisorRepository;
+        private RevisorArtigoRepository _revisorArtigoRepository;
+        private UtilizadorRepository _utilizadorRepository;
+        private UtilizadorInstituicaoRepository _utilizadorInstituicaoRepository;
 
 
         public Context(string cs)
@@ -110,7 +118,7 @@ namespace DAL.concrete
             }
         }
 
-        public ConferenciaUtilizadorRepository
+        public ConferenciaUtilizadorRepository ConferenciaUtilizadores
         {
             get
             {
@@ -158,7 +166,7 @@ namespace DAL.concrete
             }
         }
 
-        public UtilizadorInsituicaoRepository UtilizadoInstituicoes 
+        public UtilizadorInstituicaoRepository UtilizadorInstituicoes 
         {
             get
             {

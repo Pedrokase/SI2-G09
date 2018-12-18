@@ -10,7 +10,7 @@ using DAL.mapper.interfaces;
 
 namespace SI2_G09.mapper
 {
-    interface IConferenciaUtilizador : IMapper<ConferenciaUtilizador, int?, List<ConferenciaUtilizador>>
+    interface IConferenciaUtilizadorMapper : IMapper<ConferenciaUtilizador, int?, List<ConferenciaUtilizador>>
     {
     }
 }

@@ -10,7 +10,6 @@
 *   O código pode não ser completo.
 **/
 using System;
-using System.Transactions;
 using System.Data.SqlClient;
 using DAL.concrete;
 using SI2_G09.concrete;
@@ -28,12 +27,11 @@ namespace DAL
         AutorArtigoRepository AutorArtigos { get; }
         ConferenciaRepository Conferencias { get; }
         ConferenciaUtilizadorRepository ConferenciaUtilizadores { get; }
-
         FicheiroPDFRepository FicheirosPDF { get; }
         InstituicaoRepository Instituicoes { get; }
         RevisorRepository Revisores { get; }
         RevisorArtigoRepository RevisorArtigos { get; }
         UtilizadorRepository Utilizadores { get; }
-        UtilizadorInsituicaoRepository UtilizadoInstituicoes { get; }
+        UtilizadorInstituicaoRepository UtilizadoInstituicoes { get; }
     }
 }
