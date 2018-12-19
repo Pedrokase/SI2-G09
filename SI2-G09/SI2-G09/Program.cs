@@ -1,4 +1,6 @@
 ﻿using DAL.concrete;
+using SI2_G09.concrete;
+using SI2_G09.model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +19,10 @@ namespace SI2_G09
 
             using (Context ctx = new Context(connectionString))
             {
-
+                Conferencia c = new Conferencia();
+                c.Id = 1;
+                ConferenciaMapper conferenciaMap = new ConferenciaMapper(ctx);
+                c = 
             }
 
 
