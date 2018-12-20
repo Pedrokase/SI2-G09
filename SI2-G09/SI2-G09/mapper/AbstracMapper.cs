@@ -41,9 +41,11 @@ namespace DAL.mapper
         protected virtual CommandType SelectCommandType { get { return System.Data.CommandType.Text; } }
         protected abstract void SelectParameters(IDbCommand command, Tid k);
 
+        //Changed
         protected abstract string UpdateCommandText { get; }
-        protected virtual CommandType UpdateCommandType { get { return System.Data.CommandType.Text; } }
-        protected abstract void UpdateParameters(IDbCommand command, T e);
+        //protected virtual CommandType UpdateCommandType { get { return System.Data.CommandType.Text; } }
+        protected abstract CommandType UpdateCommandType { get; }
+        protected abstract T UpdateParameters(T e);
 
         protected abstract string DeleteCommandText { get; }
         protected virtual CommandType DeleteCommandType { get { return System.Data.CommandType.Text; } }
@@ -55,6 +57,7 @@ namespace DAL.mapper
 
         #endregion
 
+       
         protected TCol MapAll(IDataReader reader)
         {
             TCol collection = new TCol();
@@ -175,91 +178,10 @@ namespace DAL.mapper
 
             EnsureContext();
 
-            using (IDbCommand cmd = context.createCommand())
-            {
-                cmd.CommandText = UpdateCommandText;
-                cmd.CommandType = UpdateCommandType;
-                UpdateParameters(cmd, entity);
-                int result = cmd.ExecuteNonQuery();
-                return (result == 0) ? null : entity;
-            }
-        }
-        #endregion
-        #region IMapper implementation
-        public virtual T Create(T entity)
-        {
-            EnsureContext();
-            using (IDbCommand cmd = context.createCommand())
-            {
-                cmd.CommandText = InsertCommandText;
-                cmd.CommandType = InsertCommandType;
-                InsertParameters(cmd, entity);
-                cmd.ExecuteNonQuery();
-                T ent = UpdateEntityID(cmd, entity);
-                cmd.Parameters.Clear();
-                return ent;
-            }
-        }
+            T result;
+            result = UpdateParameters(entity);
+            return result;
 
-        public virtual T Delete(T entity)
-        {
-            if (entity == null)
-                throw new ArgumentException("The " + typeof(T) + " to delete cannot be null");
-
-            EnsureContext();
-
-            using (IDbCommand cmd = context.createCommand())
-            {
-                cmd.CommandText = DeleteCommandText;
-                cmd.CommandType = DeleteCommandType;
-                DeleteParameters(cmd, entity);
-                int result = cmd.ExecuteNonQuery();
-                return (result == 0) ? null : entity;
-            }
-        }
-
-        public virtual T Read(Tid id)
-        {
-            EnsureContext();
-            using (IDbCommand cmd = context.createCommand())
-            {
-                cmd.CommandText = SelectCommandText;
-                cmd.CommandType = SelectCommandType;
-                SelectParameters(cmd, id);
-                using (IDataReader reader = cmd.ExecuteReader())
-                    return reader.Read() ? Map(reader) : null;
-            }
-        }
-
-        public virtual TCol ReadAll()
-        {
-            EnsureContext();
-
-            using (IDbCommand cmd = context.createCommand())
-            {
-                cmd.CommandText = SelectAllCommandText;
-                cmd.CommandType = SelectAllCommandType;
-                SelectAllParameters(cmd);
-                using (IDataReader reader = cmd.ExecuteReader())
-                    return MapAll(reader);
-            }
-        }
-
-        public virtual T Update(T entity)
-        {
-            if (entity == null)
-                throw new ArgumentException("The " + typeof(T) + " to update cannot be null");
-
-            EnsureContext();
-
-            using (IDbCommand cmd = context.createCommand())
-            {
-                cmd.CommandText = UpdateCommandText;
-                cmd.CommandType = UpdateCommandType;
-                UpdateParameters(cmd, entity);
-                int result = cmd.ExecuteNonQuery();
-                return (result == 0) ? null : entity;
-            }
         }
         #endregion
     }

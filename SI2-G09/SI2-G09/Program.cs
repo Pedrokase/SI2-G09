@@ -20,9 +20,14 @@ namespace SI2_G09
             using (Context ctx = new Context(connectionString))
             {
                 Conferencia c = new Conferencia();
-                c.Id = 1;
-                ConferenciaMapper conferenciaMap = new ConferenciaMapper(ctx);
-                c = 
+                Console.WriteLine("FindAll");
+                foreach (var conferencia in ctx.Conferencias.FindAll())
+                {
+                    Console.WriteLine("Course: {0}-{1}", conferencia.Id, conferencia.Nome);
+                }
+                //c.Id = 1;
+                //ConferenciaMapper conferenciaMap = new ConferenciaMapper(ctx);
+                //c = 
             }
 
 
