@@ -10,9 +10,9 @@
 *   O código pode não ser completo.
 **/
 using System;
-using System.Transactions;
 using System.Data;
 using System.Data.SqlClient;
+using System.Transactions;
 using SI2_G09.concrete;
 
 namespace DAL.concrete
@@ -173,5 +173,7 @@ namespace DAL.concrete
                 return _utilizadorInstituicaoRepository;
             }
         }
+
+        public UtilizadorInstituicaoRepository UtilizadoInstituicoes => throw new NotImplementedException();
     }
 }

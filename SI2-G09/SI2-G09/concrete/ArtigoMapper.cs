@@ -17,11 +17,14 @@ namespace SI2_G09.concrete
         public ArtigoMapper(IContext ctx) : base(ctx)
         {
         }
+
         protected override string SelectAllCommandText => throw new NotImplementedException();
 
         protected override string SelectCommandText => throw new NotImplementedException();
 
         protected override string UpdateCommandText => throw new NotImplementedException();
+
+        protected override CommandType UpdateCommandType => throw new NotImplementedException();
 
         protected override string DeleteCommandText => throw new NotImplementedException();
 
@@ -52,7 +55,7 @@ namespace SI2_G09.concrete
             throw new NotImplementedException();
         }
 
-        protected override void UpdateParameters(IDbCommand command, Artigo e)
+        protected override Artigo UpdateParameters(Artigo e)
         {
             throw new NotImplementedException();
         }

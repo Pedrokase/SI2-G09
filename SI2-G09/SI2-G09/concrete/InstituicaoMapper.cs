@@ -16,11 +16,14 @@ namespace SI2_G09.concrete
         public InstituicaoMapper(IContext ctx) : base(ctx)
         {
         }
+
         protected override string SelectAllCommandText => throw new NotImplementedException();
 
         protected override string SelectCommandText => throw new NotImplementedException();
 
         protected override string UpdateCommandText => throw new NotImplementedException();
+
+        protected override CommandType UpdateCommandType => throw new NotImplementedException();
 
         protected override string DeleteCommandText => throw new NotImplementedException();
 
@@ -51,7 +54,7 @@ namespace SI2_G09.concrete
             throw new NotImplementedException();
         }
 
-        protected override void UpdateParameters(IDbCommand command, Instituicao e)
+        protected override Instituicao UpdateParameters(Instituicao e)
         {
             throw new NotImplementedException();
         }

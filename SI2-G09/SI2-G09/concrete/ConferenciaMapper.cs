@@ -19,7 +19,7 @@ namespace SI2_G09.concrete
         {
         }
 
-        protected override string SelectAllCommandText => throw new NotImplementedException();
+        protected override string SelectAllCommandText { get { return "select * from Conferencia"; } }
 
         protected override string SelectCommandText => throw new NotImplementedException();
 
@@ -54,8 +54,8 @@ namespace SI2_G09.concrete
             c.Id = record.GetInt32(0);
             c.Nome = record.GetString(1);
             c.Acronimo = record.GetString(2);
-            c.DataSubmissao = record.GetDateTime(3);
-            c.DataRevisao = record.GetDateTime(4);
+            c.DataSubmissao = DateTime.Parse(record.GetInt32(3).ToString());
+            c.DataRevisao = DateTime.Parse(record.GetInt32(4).ToString());
             c.President = record.GetInt32(5);
             c.NotaMinima = record.GetInt32(6);
             return c;
@@ -91,10 +91,7 @@ namespace SI2_G09.concrete
                 SqlParameter p2 = new SqlParameter("@nota", e.NotaMinima);
                 cmd.CommandText = UpdateNotaConferenciaCommandText;
                 p1.Direction = ParameterDirection.InputOutput;
-                if (e.Id != null)
-                    p1.Value = e.Id;
-                else
-                    p1.Value = DBNull.Value;
+                p1.Value = e.Id;
                 cmd.Parameters.Add(p1);
                 cmd.Parameters.Add(p2);
                 //var param = cmd.Parameters["@nota"] as SqlParameter;

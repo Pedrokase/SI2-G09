@@ -23,7 +23,7 @@ namespace SI2_G09.mapper
             this.countryId = countryId;
         }
 
-        public override Instituicao Instituicao {
+        /*public override Instituicao Instituicao {
             get
             {
                 if (base.Instituicao == null) //lazy load
@@ -56,7 +56,7 @@ namespace SI2_G09.mapper
             {
                 base.EnrolledCourses = value;
             }
-        }
+        }*/
 
     }
 }

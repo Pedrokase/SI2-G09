@@ -23,6 +23,8 @@ namespace SI2_G09.concrete
 
         protected override string UpdateCommandText => throw new NotImplementedException();
 
+        protected override CommandType UpdateCommandType => throw new NotImplementedException();
+
         protected override string DeleteCommandText => throw new NotImplementedException();
 
         protected override string InsertCommandText => throw new NotImplementedException();
@@ -52,7 +54,7 @@ namespace SI2_G09.concrete
             throw new NotImplementedException();
         }
 
-        protected override void UpdateParameters(IDbCommand command, UtilizadorInstituicao e)
+        protected override UtilizadorInstituicao UpdateParameters(UtilizadorInstituicao e)
         {
             throw new NotImplementedException();
         }

@@ -16,11 +16,14 @@ namespace SI2_G09.concrete
         public AutorMapper(IContext ctx) : base(ctx)
         {
         }
+
         protected override string SelectAllCommandText => throw new NotImplementedException();
 
         protected override string SelectCommandText => throw new NotImplementedException();
 
         protected override string UpdateCommandText => throw new NotImplementedException();
+
+        protected override CommandType UpdateCommandType => throw new NotImplementedException();
 
         protected override string DeleteCommandText => throw new NotImplementedException();
 
@@ -51,10 +54,9 @@ namespace SI2_G09.concrete
             throw new NotImplementedException();
         }
 
-        protected override void UpdateParameters(IDbCommand command, Autor e)
+        protected override Autor UpdateParameters(Autor e)
         {
             throw new NotImplementedException();
         }
     }
-
 }
