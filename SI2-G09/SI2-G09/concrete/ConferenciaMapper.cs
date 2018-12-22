@@ -38,15 +38,14 @@ namespace SI2_G09.concrete
         protected string UpdateAcronimoCommandText { get { return "UpdateAcronimo"; } }
         protected string UpdateNomeCommandText { get { return "UpdateNome"; } }
 
+        protected override CommandType InsertCommandType => throw new NotImplementedException();
+
         protected override void DeleteParameters(IDbCommand command, Conferencia e)
         {
             throw new NotImplementedException();
         }
 
-        protected override void InsertParameters(IDbCommand command, Conferencia e)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         protected override Conferencia Map(IDataRecord record)
         {
@@ -105,6 +104,7 @@ namespace SI2_G09.concrete
                 //var param = cmd.Parameters["@nota"] as SqlParameter;
                 //e.NotaMinima = int.Parse(param.Value.ToString());
                 int result = cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
                 return (result == 0) ? null : e;
             }
         }
@@ -199,6 +199,11 @@ namespace SI2_G09.concrete
                 int result = cmd.ExecuteNonQuery();
                 return (result == 0) ? null : e;
             }
+        }
+
+        protected override Conferencia InsertParameters(Conferencia e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

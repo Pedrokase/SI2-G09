@@ -29,12 +29,14 @@ namespace SI2_G09.concrete
 
         protected override string InsertCommandText => throw new NotImplementedException();
 
+        protected override CommandType InsertCommandType => throw new NotImplementedException();
+
         protected override void DeleteParameters(IDbCommand command, Instituicao e)
         {
             throw new NotImplementedException();
         }
 
-        protected override void InsertParameters(IDbCommand command, Instituicao e)
+        protected override Instituicao InsertParameters(Instituicao e)
         {
             throw new NotImplementedException();
         }

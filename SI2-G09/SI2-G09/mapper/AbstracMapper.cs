@@ -52,8 +52,8 @@ namespace DAL.mapper
         protected abstract void DeleteParameters(IDbCommand command, T e);
 
         protected abstract string InsertCommandText { get; }
-        protected virtual CommandType InsertCommandType { get { return System.Data.CommandType.Text; } }
-        protected abstract void InsertParameters(IDbCommand command, T e);
+        protected abstract CommandType InsertCommandType { get; }
+        protected abstract T InsertParameters(T e);
 
         #endregion
 
@@ -114,17 +114,17 @@ namespace DAL.mapper
         #region IMapper implementation
         public virtual T Create(T entity)
         {
+            if (entity == null)
+                throw new ArgumentException("The " + typeof(T) + " to update cannot be null");
             EnsureContext();
-            using (IDbCommand cmd = context.createCommand())
-            {
-                cmd.CommandText = InsertCommandText;
-                cmd.CommandType = InsertCommandType;
-                InsertParameters(cmd, entity);
-                cmd.ExecuteNonQuery();
-                T ent = UpdateEntityID(cmd, entity);
-                cmd.Parameters.Clear();
-                return ent;
-            }
+            //cmd.CommandText = InsertCommandText;
+            //cmd.CommandType = InsertCommandType;
+            T result;
+            result = InsertParameters(entity);
+            //cmd.ExecuteNonQuery();
+            //cmd.Parameters.Clear();
+            return result;
+            
         }
 
         public virtual T Delete(T entity)
