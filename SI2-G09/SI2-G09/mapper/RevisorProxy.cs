@@ -17,7 +17,6 @@ namespace SI2_G09.mapper
         {
             base.UserID = null;
             context = ctx;
-            this.utilizadorID = utilizadorID;
         }
 
         public override Utilizador UserID

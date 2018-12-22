@@ -36,7 +36,7 @@ namespace SI2_G09.concrete
 
         protected override string SelectAllCommandText { get { return "select * from Revisor"; } }
 
-        protected override string SelectCommandText { get { return String.Format("{0} where iserID=@id", SelectAllCommandText); } }
+        protected override string SelectCommandText { get { return String.Format("{0} where userID=@id", SelectAllCommandText); } }
 
         protected override string UpdateCommandText => throw new NotImplementedException();
 
@@ -73,15 +73,26 @@ namespace SI2_G09.concrete
         protected override Revisor Map(IDataRecord record)
         {
             Revisor r = new Revisor();
-            Utilizador u = new Utilizador();
+            /*Utilizador u = new Utilizador();
             u.ID = record.GetInt32(0);
-            r.UserID = u;
+            r.UserID = u;*/
             return new RevisorProxy(r, context, record.GetInt32(0));
         }
 
         protected override void SelectParameters(IDbCommand command, int? k)
         {
-            throw new NotImplementedException();
+            EnsureContext();
+            using (IDbCommand cmd = context.createCommand())
+            {
+                cmd.CommandType = InsertCommandType;
+                cmd.CommandText = InsertCommandText;
+                SqlParameter p1 = new SqlParameter("@id", SqlDbType.Int);
+                
+                p1.Value = k;
+                cmd.Parameters.Add(p1);
+                int result = cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
+            }
         }
 
         protected override Revisor UpdateEntityID(IDbCommand cmd, Revisor e)

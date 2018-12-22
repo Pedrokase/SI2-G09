@@ -173,7 +173,6 @@ namespace DAL.concrete
                 return _utilizadorInstituicaoRepository;
             }
         }
-
-        public UtilizadorInstituicaoRepository UtilizadoInstituicoes => throw new NotImplementedException();
+        
     }
 }
