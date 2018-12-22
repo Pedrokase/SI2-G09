@@ -8,6 +8,9 @@ namespace SI2_G09.model
 {
     public class Revisor
     {
+        public Revisor()
+        {
+        }
         public virtual Utilizador UserID { get; set; }
     }
 }

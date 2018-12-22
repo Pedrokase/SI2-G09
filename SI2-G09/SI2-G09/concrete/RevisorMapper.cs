@@ -18,7 +18,8 @@ namespace SI2_G09.concrete
         {
             UtilizadorMapper rm = new UtilizadorMapper(context);
             List<IDataParameter> parameters = new List<IDataParameter>();
-            parameters.Add(new SqlParameter("@id", r.UserID.ID));
+            //parameters.Add(new SqlParameter("@id", r.UserID.ID));
+            parameters.Add(new SqlParameter("@id", 1));
             using (IDataReader rd = ExecuteReader("select ID from Utilizador where ID=@id", parameters))
             {
                 if (rd.Read())
@@ -81,18 +82,8 @@ namespace SI2_G09.concrete
 
         protected override void SelectParameters(IDbCommand command, int? k)
         {
-            EnsureContext();
-            using (IDbCommand cmd = context.createCommand())
-            {
-                cmd.CommandType = InsertCommandType;
-                cmd.CommandText = InsertCommandText;
-                SqlParameter p1 = new SqlParameter("@id", SqlDbType.Int);
-                
-                p1.Value = k;
-                cmd.Parameters.Add(p1);
-                int result = cmd.ExecuteNonQuery();
-                cmd.Parameters.Clear();
-            }
+            SqlParameter p = new SqlParameter("@id", k);
+            command.Parameters.Add(p);
         }
 
         protected override Revisor UpdateEntityID(IDbCommand cmd, Revisor e)
@@ -104,5 +95,7 @@ namespace SI2_G09.concrete
         {
             throw new NotImplementedException();
         }
+
+    
     }
 }
