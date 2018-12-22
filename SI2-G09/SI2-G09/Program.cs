@@ -17,6 +17,7 @@ namespace SI2_G09
             //TODO pool e outros
             string connectionString = "Server=192.168.33.102;Database=SI2_T1;User Id=sisu; Password=#_su!si2";
              
+            //alinea f)
             using (Context ctx = new Context(connectionString))
             {
                 
@@ -38,20 +39,37 @@ namespace SI2_G09
 
             }
 
+            //Alinea g)
             using (Context ctx = new Context(connectionString))
             {
 
-                Console.WriteLine("FindAll");
+                Console.WriteLine("FindAll Utilizadores");
                 foreach (var utilizador in ctx.Utilizadores.FindAll())
                 {
                     Console.WriteLine("Utilizador: {0}-{1}", utilizador.ID, utilizador.Email);
                 }
                 UtilizadorMapper utilizadorMap = new UtilizadorMapper(ctx);
                 int id = 1;
-                //Ler a conferencia com id = 1, guardando essa em c
+                //Ler o utilizador com id = 1, guardando essa em c
                 Utilizador c = utilizadorMap.Read(id);
-                Console.WriteLine("Antes: Utilizador: {0}-{1}", c.ID, c.Email);
-               
+                Console.WriteLine("Utilizador que vai ficar revisor: {0}-{1}", c.ID, c.Email);
+
+                Console.WriteLine("FindAll Revisores");
+                foreach (var revisor in ctx.Revisores.FindAll())
+                {
+                    Console.WriteLine("Revisor: {0}-{1}", revisor.UserID.ID, revisor.UserID.Email);
+                }
+                Revisor r = new Revisor();
+                RevisorMapper revisorMapper = new RevisorMapper(ctx);
+                //Inserir um Utilizador com id=1 em Revisor
+                r.UserID = c;
+                r = revisorMapper.Create(r);
+                Console.WriteLine("FindAll Revisores");
+                foreach (var revisor in ctx.Revisores.FindAll())
+                {
+                    Console.WriteLine("Revisor: {0}-{1}", revisor.UserID.ID, revisor.UserID.Email);
+                }
+
 
             }
 
