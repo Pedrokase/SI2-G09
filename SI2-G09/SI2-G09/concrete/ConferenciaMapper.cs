@@ -37,8 +37,10 @@ namespace SI2_G09.concrete
         protected string UpdatePresidenteCommandText { get { return "UpdatePresidente"; } }
         protected string UpdateAcronimoCommandText { get { return "UpdateAcronimo"; } }
         protected string UpdateNomeCommandText { get { return "UpdateNome"; } }
+		protected string ReturnAcceptedSubmissionsPercentage { get { return "AcceptSubmissionRate";} }
 
-        protected override CommandType InsertCommandType => throw new NotImplementedException();
+
+		protected override CommandType InsertCommandType => throw new NotImplementedException();
 
         protected override void DeleteParameters(IDbCommand command, Conferencia e)
         {
@@ -205,5 +207,33 @@ namespace SI2_G09.concrete
         {
             throw new NotImplementedException();
         }
+
+	    public int GetAcceptedSubmissionsPercentage(Conferencia e)
+	    {
+			EnsureContext();
+		    using (IDbCommand cmd = context.createCommand())
+		    {
+			    SqlParameter p1 = new SqlParameter("@conferencia_id", SqlDbType.Int);
+				SqlParameter retVal = new SqlParameter("retVal", SqlDbType.Int)
+				{
+					Direction = ParameterDirection.ReturnValue
+				};
+
+				cmd.CommandType = CommandType.StoredProcedure;
+			    cmd.CommandText = ReturnAcceptedSubmissionsPercentage;
+
+			    p1.Value = e.Id;
+
+			    cmd.Parameters.Add(p1);
+			    cmd.Parameters.Add(retVal);
+
+			    if (cmd.ExecuteNonQuery() == 0)
+			    {
+					throw new Exception();
+			    }
+
+			    return (int) retVal.Value;
+		    }
+	    }
     }
 }
