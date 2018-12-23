@@ -14,9 +14,10 @@ namespace SI2_G09
 
 		static void Main(string[] args)
 		{
-			//TODO pool e outros
-			string connectionString = "Server=192.168.33.102;Database=SI2_T1;User Id=sisu; Password=#_su!si2";
-
+            //TODO pool e outros
+            //string connectionString = "Server=192.168.33.102;Database=SI2_T1;User Id=sisu; Password=#_su!si2";
+            string connectionString = "Server=RICARDO;Database=SI2_T1;User Id=sa; Password=1234";
+            
 
 			//alinea j)
 			using (Context ctx = new Context(connectionString))
@@ -32,7 +33,7 @@ namespace SI2_G09
 
 
             //alinea f)
-			using (Context ctx = new Context(connectionString))
+            using (Context ctx = new Context(connectionString))
 			{
 
 
@@ -55,9 +56,12 @@ namespace SI2_G09
 				Console.WriteLine("Depois: Conferencia: {0}-{1}", c.Id, c.Nome);
 			}
 
-            //Alinea g)
+            //Alinea g) para revisor
 			using (Context ctx = new Context(connectionString))
 			{
+
+                UtilizadorMapper utilizadorMap = new UtilizadorMapper(ctx);
+                RevisorMapper revisorMapper = new RevisorMapper(ctx);
 
                 Console.WriteLine("FindAll Utilizadores");
 				foreach (var utilizador in ctx.Utilizadores.FindAll())
@@ -65,8 +69,7 @@ namespace SI2_G09
 					Console.WriteLine("Utilizador: {0}-{1}", utilizador.ID, utilizador.Email);
 				}
 
-				UtilizadorMapper utilizadorMap = new UtilizadorMapper(ctx);
-				int id = 1;
+                int id = 1;
                 //Ler o utilizador com id = 1, guardando essa em c
 				Utilizador c = utilizadorMap.Read(id);
                 Console.WriteLine("Utilizador que vai ficar revisor: {0}-{1}", c.ID, c.Email);
@@ -74,21 +77,80 @@ namespace SI2_G09
                 Console.WriteLine("FindAll Revisores");
                 foreach (var revisor in ctx.Revisores.FindAll())
                 {
-                    Console.WriteLine("Revisor: {0}-{1}", revisor.UserID.ID, revisor.UserID.Email);
+                    Console.WriteLine("Revisor: {0}", revisor.UserID.ID);
                 }
                 Revisor r = new Revisor();
-                RevisorMapper revisorMapper = new RevisorMapper(ctx);
                 //Inserir um Utilizador com id=1 em Revisor
+                //r.ID = 1;
                 r.UserID = c;
                 r = revisorMapper.Create(r);
                 Console.WriteLine("FindAll Revisores");
                 foreach (var revisor in ctx.Revisores.FindAll())
                 {
-                    Console.WriteLine("Revisor: {0}-{1}", revisor.UserID.ID, revisor.UserID.Email);
+                    Console.WriteLine("Revisor: {0}", revisor.UserID.ID);
                 }
-
 			}
             
-		}
+            //Alinea g) para autor
+            using (Context ctx = new Context(connectionString))
+            {
+
+                UtilizadorMapper utilizadorMap = new UtilizadorMapper(ctx);
+                AutorMapper autorMapper = new AutorMapper(ctx);
+
+                Console.WriteLine("FindAll Utilizadores");
+                foreach (var utilizador in ctx.Utilizadores.FindAll())
+                {
+                    Console.WriteLine("Utilizador: {0}-{1}", utilizador.ID, utilizador.Email);
+                }
+
+                int id = 1;
+                //Ler o utilizador com id = 1, guardando essa em c
+                Utilizador c = utilizadorMap.Read(id);
+                Console.WriteLine("Utilizador que vai ficar revisor: {0}-{1}", c.ID, c.Email);
+
+                Console.WriteLine("FindAll Autores");
+                foreach (var autor in ctx.Autores.FindAll())
+                {
+                    Console.WriteLine("Autor: {0}", autor.UserID.ID);
+                }
+                Autor r = new Autor();
+                //Inserir um Utilizador com id=1 em Revisor
+                r.UserID = c;
+                r = autorMapper.Create(r);
+                Console.WriteLine("FindAll Autor Após a criação");
+                foreach (var autor in ctx.Autores.FindAll())
+                {
+                    Console.WriteLine("Autor: {0}", autor.UserID.ID);
+                }
+
+            }
+            
+            // alinea h)
+            using (Context ctx = new Context(connectionString))
+            {
+                RevisorMapper revisorMap = new RevisorMapper(ctx);
+                List<Revisor> r = revisorMap.ReadAll();
+                foreach (Revisor re in r)
+                {
+                    Console.WriteLine("Revisor: {0}", re.UserID.ID);
+                }
+                List<object> result = revisorMap.CompatibleReviewers(1, 1);
+                foreach (object id in result)
+                {
+                    Console.WriteLine("Revisores Compativeis: {0}", id);
+                }
+            }
+
+            // alinea i)
+            using (Context ctx = new Context(connectionString))
+            {
+                RevisorArtigoMapper revisorartigoMap = new RevisorArtigoMapper(ctx);
+                RevisorArtigo result = revisorartigoMap.addReviewerToArticle(1, 1, 6);
+                Console.WriteLine("Revisor {0} adicionado ao artigo {1} da conferencia {2}", result.Revisor.ID, result.ArtigoRevisto.ID, result.ArtigoRevisto.Conferencia.Id);
+
+            }
+
+        }
 	}
 }

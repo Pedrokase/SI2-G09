@@ -8,6 +8,6 @@ namespace SI2_G09.model
 {
     public class Autor
     {
-		public Utilizador Utilizador { get; set; }
+        public virtual Utilizador UserID { get; set; }
     }
 }

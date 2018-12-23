@@ -85,6 +85,37 @@ namespace SI2_G09.concrete
             throw new NotImplementedException();
         }
 
+	    public RevisorArtigo RegisterArticle(RevisorArtigo e, int grade, string text)
+	    {
+			EnsureContext();
+		    using (IDbCommand cmd = context.createCommand())
+		    {
+			    SqlParameter userIdParam = new SqlParameter("@user_id", SqlDbType.Int);
+				SqlParameter articleIdParam = new SqlParameter("@artigo_id", SqlDbType.Int);
+			    SqlParameter conferenceIdParam = new SqlParameter("@conferencia_id", SqlDbType.Int);
+			    SqlParameter gradeParam = new SqlParameter("@nota", SqlDbType.Int);
+				SqlParameter articleTextParam = new SqlParameter("@texto", SqlDbType.VarChar, 200);
+
+			    cmd.CommandType = CommandType.StoredProcedure;
+			    cmd.CommandText = RegisterArticleProcedure;
+
+			    userIdParam.Value = e.Revisor.ID;
+			    articleIdParam.Value = e.ArtigoRevisto.ID;
+			    conferenceIdParam.Value = e.ArtigoRevisto.Conferencia.Id;
+			    gradeParam.Value = grade;
+			    articleTextParam.Value = text;
+
+			    cmd.Parameters.Add(userIdParam);
+			    cmd.Parameters.Add(articleIdParam);
+			    cmd.Parameters.Add(conferenceIdParam);
+			    cmd.Parameters.Add(gradeParam);
+			    cmd.Parameters.Add(articleTextParam);
+
+			    cmd.ExecuteNonQuery();
+			    return e;
+		    }
+        
+		}
         public RevisorArtigo addReviewerToArticle(int conferenceID, int articleID, int reviewerID)
         {
             EnsureContext();
@@ -119,35 +150,5 @@ namespace SI2_G09.concrete
                 return r;
             }
         }
-            public RevisorArtigo RegisterArticle(RevisorArtigo e, int grade, string text)
-	    {
-			EnsureContext();
-		    using (IDbCommand cmd = context.createCommand())
-		    {
-			    SqlParameter userIdParam = new SqlParameter("@user_id", SqlDbType.Int);
-				SqlParameter articleIdParam = new SqlParameter("@artigo_id", SqlDbType.Int);
-			    SqlParameter conferenceIdParam = new SqlParameter("@conferencia_id", SqlDbType.Int);
-			    SqlParameter gradeParam = new SqlParameter("@nota", SqlDbType.Int);
-				SqlParameter articleTextParam = new SqlParameter("@texto", SqlDbType.VarChar, 200);
-
-			    cmd.CommandType = CommandType.StoredProcedure;
-			    cmd.CommandText = RegisterArticleProcedure;
-
-			    userIdParam.Value = e.Revisor.ID;
-			    articleIdParam.Value = e.ArtigoRevisto.ID;
-			    conferenceIdParam.Value = e.ArtigoRevisto.Conferencia.Id;
-			    gradeParam.Value = grade;
-			    articleTextParam.Value = text;
-
-			    cmd.Parameters.Add(userIdParam);
-			    cmd.Parameters.Add(articleIdParam);
-			    cmd.Parameters.Add(conferenceIdParam);
-			    cmd.Parameters.Add(gradeParam);
-			    cmd.Parameters.Add(articleTextParam);
-
-			    cmd.ExecuteNonQuery();
-			    return e;
-		    }
-		}
     }
 }

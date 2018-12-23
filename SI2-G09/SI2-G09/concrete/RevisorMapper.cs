@@ -18,18 +18,19 @@ namespace SI2_G09.concrete
         {
             UtilizadorMapper rm = new UtilizadorMapper(context);
             List<IDataParameter> parameters = new List<IDataParameter>();
-            //parameters.Add(new SqlParameter("@id", r.UserID.ID));
-            parameters.Add(new SqlParameter("@id", 1));
-            using (IDataReader rd = ExecuteReader("select ID from Utilizador where ID=@id", parameters))
+            parameters.Add(new SqlParameter("@id", r.UserID.ID));
+            //parameters.Add(new SqlParameter("@id", r.ID));
+            int key=0;
+            using (IDataReader rd = ExecuteReader("select userID from Revisor where userID=@id", parameters))
             {
                 if (rd.Read())
                 {
-                    int key = rd.GetInt32(0);
-                    return rm.Read(key);
+                    key = rd.GetInt32(0);
+                    
                 }
 
             }
-            return null;
+            return rm.Read(key);
         }
         public RevisorMapper(IContext ctx) : base(ctx)
         {
@@ -47,9 +48,9 @@ namespace SI2_G09.concrete
 
         protected override string InsertCommandText { get { return "UtilizadorToRevisor"; } }
 
-        protected string CompatibleReviewersCommandText { get { return "SELECT * FROM listCompatibleReviewers(@conferenceID, @articleID)"; } }
-
         protected override CommandType InsertCommandType { get { return System.Data.CommandType.StoredProcedure; } }
+
+        protected string CompatibleReviewersCommandText { get { return "SELECT * FROM listCompatibleReviewers(@conferenceID, @articleID)"; } }
 
         protected override void DeleteParameters(IDbCommand command, Revisor e)
         {
@@ -76,9 +77,9 @@ namespace SI2_G09.concrete
         protected override Revisor Map(IDataRecord record)
         {
             Revisor r = new Revisor();
-            /*Utilizador u = new Utilizador();
+            Utilizador u = new Utilizador();
             u.ID = record.GetInt32(0);
-            r.UserID = u;*/
+            r.UserID = u;
             return new RevisorProxy(r, context, record.GetInt32(0));
         }
 
@@ -97,6 +98,7 @@ namespace SI2_G09.concrete
         {
             throw new NotImplementedException();
         }
+
         public List<object> CompatibleReviewers(int conferenceID, int articleID)
         {
             EnsureContext();
@@ -125,5 +127,6 @@ namespace SI2_G09.concrete
             }
         }
 
-        }
+
+    }
 }
