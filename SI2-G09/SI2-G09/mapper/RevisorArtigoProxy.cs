@@ -14,8 +14,9 @@ namespace SI2_G09.mapper
 		private IContext context;
 		private int? articleId;
 		private int? userId;
+        private int? conferenceID;
 
-		public RevisorArtigoProxy(RevisorArtigo ra, IContext ctx, int articleId, int userId)
+		public RevisorArtigoProxy(RevisorArtigo ra, IContext ctx, int articleId, int conferenceID, int userId)
 		{
 		
             base.Nota = ra.Nota;
@@ -23,7 +24,10 @@ namespace SI2_G09.mapper
             base.Revisor = null;
 			base.ArtigoRevisto = null;
 			context = ctx;
-		}
+            this.articleId = articleId;
+            this.userId = userId;
+            this.conferenceID = conferenceID;
+        }
 
 		public override Artigo ArtigoRevisto
 		{

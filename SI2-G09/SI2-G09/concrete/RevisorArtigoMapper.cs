@@ -19,8 +19,9 @@ namespace SI2_G09.concrete
             ArtigoMapper am = new ArtigoMapper(context);
             List<IDataParameter> parameters = new List<IDataParameter>();
             parameters.Add(new SqlParameter("@id", ra.ArtigoRevisto.ID));
+            parameters.Add(new SqlParameter("@cid", ra.ArtigoRevisto.Conferencia.Id));
             int key = 0;
-            using (IDataReader rd = ExecuteReader("select ID from Revisor_Artigo where ID=@id", parameters))
+            using (IDataReader rd = ExecuteReader("select ID from Revisor_Artigo where ID=@id and conferenceID=@cid", parameters))
             {
                 if (rd.Read())
                 {
@@ -102,7 +103,7 @@ namespace SI2_G09.concrete
             
 	        ra.Nota = record.GetInt32(3);
 	        ra.Texto = record.GetString(4);
-	        return new RevisorArtigoProxy(ra,context, record.GetInt32(1), record.GetInt32(0));
+	        return new RevisorArtigoProxy(ra,context, record.GetInt32(1), record.GetInt32(2), record.GetInt32(0));
         }
 
         protected override void SelectParameters(IDbCommand command, int? k)

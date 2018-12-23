@@ -173,9 +173,9 @@ namespace SI2_G09
             {
                 RevisorArtigoMapper ra = new RevisorArtigoMapper(ctx);
                 ConferenciaMapper cm = new ConferenciaMapper(ctx);
-                ctx.Conferencias.FindAll();
-                ctx.Utilizadores.FindAll();
-                ctx.Artigos.FindAll();
+                IEnumerable<Conferencia> conf = ctx.Conferencias.FindAll();
+                IEnumerable<Utilizador> ut = ctx.Utilizadores.FindAll();
+                IEnumerable<Artigo> art = ctx.Artigos.FindAll();
                 ctx.RevisorArtigos.FindAll();
                 Console.WriteLine(cm.GetAcceptedSubmissionsPercentage(cm.Read(1)));
             }
