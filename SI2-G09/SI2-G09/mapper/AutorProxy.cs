@@ -13,10 +13,11 @@ namespace SI2_G09.mapper
     {
         private IContext context;
         private int? utilizadorID;
-        public AutorProxy(Autor s, IContext ctx, int? utilizadorId) : base()
+        public AutorProxy(Autor s, IContext ctx, int utilizadorId) : base()
         {
-            base.ID = s.ID;
-            base.UserID = null;
+            Utilizador a = new Utilizador();
+            a.ID = utilizadorId;
+            base.UserID = a;
             context = ctx;
         }
 

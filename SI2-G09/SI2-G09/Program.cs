@@ -14,11 +14,12 @@ namespace SI2_G09
 
 		static void Main(string[] args)
 		{
-			//TODO pool e outros
-			string connectionString = "Server=192.168.33.102;Database=SI2_T1;User Id=sisu; Password=#_su!si2";
-
+            //TODO pool e outros
+            //string connectionString = "Server=192.168.33.102;Database=SI2_T1;User Id=sisu; Password=#_su!si2";
+            string connectionString = "Server=RICARDO;Database=SI2_T1;User Id=sa; Password=1234";
+            
             //alinea f)
-			using (Context ctx = new Context(connectionString))
+            using (Context ctx = new Context(connectionString))
 			{
 
 
@@ -62,20 +63,20 @@ namespace SI2_G09
                 Console.WriteLine("FindAll Revisores");
                 foreach (var revisor in ctx.Revisores.FindAll())
                 {
-                    Console.WriteLine("Revisor: {0}-{1}", revisor.UserID.ID, revisor.UserID.Email);
+                    Console.WriteLine("Revisor: {0}", revisor.UserID.ID);
                 }
                 Revisor r = new Revisor();
                 //Inserir um Utilizador com id=1 em Revisor
-                r.ID = 1;
+                //r.ID = 1;
                 r.UserID = c;
                 r = revisorMapper.Create(r);
                 Console.WriteLine("FindAll Revisores");
                 foreach (var revisor in ctx.Revisores.FindAll())
                 {
-                    Console.WriteLine("Revisor: {0}-{1}", revisor.UserID.ID, revisor.UserID.Email);
+                    Console.WriteLine("Revisor: {0}", revisor.UserID.ID);
                 }
 			}
-
+            
             //Alinea g) para autor
             using (Context ctx = new Context(connectionString))
             {
@@ -97,21 +98,20 @@ namespace SI2_G09
                 Console.WriteLine("FindAll Autores");
                 foreach (var autor in ctx.Autores.FindAll())
                 {
-                    Console.WriteLine("Autor: {0}-{1}", autor.UserID.ID, autor.UserID.Email);
+                    Console.WriteLine("Autor: {0}", autor.UserID.ID);
                 }
                 Autor r = new Autor();
                 //Inserir um Utilizador com id=1 em Revisor
-                r.ID = 1;
                 r.UserID = c;
                 r = autorMapper.Create(r);
                 Console.WriteLine("FindAll Autor Após a criação");
                 foreach (var autor in ctx.Autores.FindAll())
                 {
-                    Console.WriteLine("Revisor: {0}-{1}", autor.UserID.ID, autor.UserID.Email);
+                    Console.WriteLine("Autor: {0}", autor.UserID.ID);
                 }
 
             }
-
+            
             // alinea h)
             using (Context ctx = new Context(connectionString))
             {

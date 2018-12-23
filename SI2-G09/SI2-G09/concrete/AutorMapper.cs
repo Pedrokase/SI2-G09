@@ -18,10 +18,10 @@ namespace SI2_G09.concrete
         {
             UtilizadorMapper rm = new UtilizadorMapper(context);
             List<IDataParameter> parameters = new List<IDataParameter>();
-            //parameters.Add(new SqlParameter("@id", r.UserID.ID));
-            parameters.Add(new SqlParameter("@id", r.ID));
+            parameters.Add(new SqlParameter("@id", r.UserID.ID));
+            //parameters.Add(new SqlParameter("@id", r.ID));
             int key = 0;
-            using (IDataReader rd = ExecuteReader("select userID from Autor where ID=@id", parameters))
+            using (IDataReader rd = ExecuteReader("select userID from Autor where userID=@id", parameters))
             {
                 if (rd.Read())
                 {
@@ -75,11 +75,10 @@ namespace SI2_G09.concrete
         protected override Autor Map(IDataRecord record)
         {
             Autor r = new Autor();
-            /*Utilizador u = new Utilizador();
+            Utilizador u = new Utilizador();
             u.ID = record.GetInt32(0);
-            r.UserID = u;*/
-            r.ID = record.GetInt32(0);
-            return new AutorProxy(r, context, record.GetInt32(1));
+            r.UserID = u;
+            return new AutorProxy(r, context, record.GetInt32(0));
         }
 
         protected override void SelectParameters(IDbCommand command, int? k)
