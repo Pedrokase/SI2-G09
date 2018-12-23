@@ -15,8 +15,8 @@ namespace SI2_G09
 		static void Main(string[] args)
 		{
             //TODO pool e outros
-            //string connectionString = "Server=192.168.33.102;Database=SI2_T1;User Id=sisu; Password=#_su!si2";
-            string connectionString = "Server=RICARDO;Database=SI2_T1;User Id=sa; Password=1234";
+            string connectionString = "Server=192.168.33.102;Database=SI2_T1;User Id=sisu; Password=#_su!si2";
+            //string connectionString = "Server=RICARDO;Database=SI2_T1;User Id=sa; Password=1234";
             
             //alinea f)
             using (Context ctx = new Context(connectionString))
@@ -129,13 +129,15 @@ namespace SI2_G09
             }
 
             // alinea i)
-            using (Context ctx = new Context(connectionString))
+            /*using (Context ctx = new Context(connectionString))
             {
                 RevisorArtigoMapper revisorartigoMap = new RevisorArtigoMapper(ctx);
+                RevisorArtigo newRevisorArtigo = new RevisorArtigo();
+                newRevisorArtigo.
                 RevisorArtigo result = revisorartigoMap.addReviewerToArticle(1, 1, 6);
                 Console.WriteLine("Revisor {0} adicionado ao artigo {1} da conferencia {2}", result.Revisor.ID, result.ArtigoRevisto.ID, result.ArtigoRevisto.Conferencia.Id);
 
-            }
+            }*/
 
 
 

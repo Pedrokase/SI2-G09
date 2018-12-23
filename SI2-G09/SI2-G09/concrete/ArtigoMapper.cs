@@ -25,7 +25,7 @@ namespace SI2_G09.concrete
 
         protected override string UpdateCommandText => throw new NotImplementedException();
 
-        protected override CommandType UpdateCommandType { get { return System.Data.CommandType.Text} }
+        protected override CommandType UpdateCommandType { get { return System.Data.CommandType.Text; } }
 
         protected override string DeleteCommandText => throw new NotImplementedException();
 
