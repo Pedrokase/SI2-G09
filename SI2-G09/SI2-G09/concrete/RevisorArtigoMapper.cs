@@ -91,20 +91,18 @@ namespace SI2_G09.concrete
         protected override RevisorArtigo Map(IDataRecord record)
         {
 			RevisorArtigo ra = new RevisorArtigo();
-			Revisor user = new Revisor();
-			Artigo article = new Artigo();
-			Conferencia conference = new Conferencia();
+			//Revisor user = new Revisor();
+			//Artigo article = new Artigo();
+			//Conferencia conference = new Conferencia();
 	        
-	        user.UserID.ID = record.GetInt32(0);
-			article.ID = record.GetInt32(1);
-			conference.Id = record.GetInt32(2);
-	        article.Conferencia = conference;
-
-			ra.Revisor = user;
-	        ra.ArtigoRevisto = article;
+	        //user.UserID.ID = record.GetInt32(0);
+			//article.ID = record.GetInt32(1);
+			//conference.Id = record.GetInt32(2);
+	        //article.Conferencia = conference;
+            
 	        ra.Nota = record.GetInt32(3);
 	        ra.Texto = record.GetString(4);
-	        return ra;
+	        return new RevisorArtigoProxy(ra,context, record.GetInt32(1), record.GetInt32(0));
         }
 
         protected override void SelectParameters(IDbCommand command, int? k)

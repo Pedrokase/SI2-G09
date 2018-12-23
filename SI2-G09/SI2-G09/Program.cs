@@ -161,14 +161,39 @@ namespace SI2_G09
                 e.Nota = 10;
                 e.Texto = "Teste";
                 e.Revisor = r;
-                foreach (var ra in ctx.RevisorArtigos.FindAll())
-                {
-                    Console.WriteLine("ID do Artigo com Revisor {0} com o texto {1}", ra.ArtigoRevisto.ID, ra.Texto);
-                }
+                
                 RevisorArtigo result = revisorArtigoMapper.Update(e);
                 Console.WriteLine("Alteração do artigo ID = {0} para o texto {1}", result.ArtigoRevisto.ID, result.Texto);
 
                 
+            }
+
+            //k)
+            using (Context ctx = new Context(connectionString))
+            {
+                RevisorArtigoMapper ra = new RevisorArtigoMapper(ctx);
+                ConferenciaMapper cm = new ConferenciaMapper(ctx);
+                ctx.Conferencias.FindAll();
+                ctx.Utilizadores.FindAll();
+                ctx.Artigos.FindAll();
+                ctx.RevisorArtigos.FindAll();
+                Console.WriteLine(cm.GetAcceptedSubmissionsPercentage(cm.Read(1)));
+            }
+
+            //l)
+            using (Context ctx = new Context(connectionString))
+            {
+                ArtigoMapper artigoMap = new ArtigoMapper(ctx);
+                Artigo a = new Artigo();
+                a.ID = 1;
+                a.Estado = "Revisao";
+                a.DataSubmetido = DateTime.Parse("2018-12-01");
+                Conferencia c = new Conferencia();
+                c.Id = 3;
+                c.DataSubmissao = DateTime.Parse("2018-03-01");
+                a.Conferencia = c;
+                Console.WriteLine("Estado do Artigo atual - {0}", a.Estado);
+                Artigo result = artigoMap.ChangeSubmission(a, DateTime.Parse("2018-03-01"));
             }
 
 

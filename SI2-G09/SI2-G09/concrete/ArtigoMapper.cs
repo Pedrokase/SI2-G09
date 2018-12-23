@@ -95,13 +95,15 @@ namespace SI2_G09.concrete
             throw new NotImplementedException();
         }
 
-        public Artigo ChangeSubmission(Artigo a, DateTime dataCorte)
+        public Artigo ChangeSubmission(Artigo a, DateTime? dataCorte)
         {
             EnsureContext();
-            SetDataCorte(a, dataCorte);
+            if (dataCorte == null) dataCorte = a.Conferencia.DataRevisao;
+            if (dataCorte < a.Conferencia.DataSubmissao)
+                return null;
             using (IDbCommand cmd = context.createCommand())
             {
-                
+
                 cmd.CommandType = UpdateCommandType;
                 cmd.CommandText = ChangeSubmissonCommandText;
                 SqlParameter p1 = new SqlParameter("@conferencia_id", SqlDbType.Int);

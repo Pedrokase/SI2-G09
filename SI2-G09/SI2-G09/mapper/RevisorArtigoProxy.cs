@@ -17,14 +17,11 @@ namespace SI2_G09.mapper
 
 		public RevisorArtigoProxy(RevisorArtigo ra, IContext ctx, int articleId, int userId)
 		{
-			Artigo article = new Artigo();
-			article.ID = articleId;
-
-			Revisor user = new Revisor();
-			user.UserID.ID = userId;
-
-			base.ArtigoRevisto = article;
-			base.Revisor = user;
+		
+            base.Nota = ra.Nota;
+            base.Texto = ra.Texto;
+            base.Revisor = null;
+			base.ArtigoRevisto = null;
 			context = ctx;
 		}
 
