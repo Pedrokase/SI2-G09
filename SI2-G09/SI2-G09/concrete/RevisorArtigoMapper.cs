@@ -88,17 +88,18 @@ namespace SI2_G09.concrete
 
         protected override RevisorArtigo InsertParameters(RevisorArtigo e)
         {
-            throw new NotImplementedException();
+            RevisorArtigo r = addReviewerToArticle(e);
+            return r;
         }
 
         protected override RevisorArtigo Map(IDataRecord record)
         {
 			RevisorArtigo ra = new RevisorArtigo();
-			Utilizador user = new Utilizador();
+			Revisor user = new Revisor();
 			Artigo article = new Artigo();
 			Conferencia conference = new Conferencia();
 	        
-	        user.ID = record.GetInt32(0);
+	        user.UserID.ID = record.GetInt32(0);
 			article.ID = record.GetInt32(1);
 			conference.Id = record.GetInt32(2);
 	        article.Conferencia = conference;
@@ -139,7 +140,7 @@ namespace SI2_G09.concrete
 			    cmd.CommandType = CommandType.StoredProcedure;
 			    cmd.CommandText = RegisterArticleProcedure;
 
-			    userIdParam.Value = e.Revisor.ID;
+			    userIdParam.Value = e.Revisor.UserID.ID;
 			    articleIdParam.Value = e.ArtigoRevisto.ID;
 			    conferenceIdParam.Value = e.ArtigoRevisto.Conferencia.Id;
 			    gradeParam.Value = grade;
@@ -156,8 +157,9 @@ namespace SI2_G09.concrete
 		    }
         
 		}
-
-        public RevisorArtigo addReviewerToArticle(int conferenceID, int articleID, int reviewerID)
+     
+            
+        public RevisorArtigo addReviewerToArticle(RevisorArtigo e)
         {
             EnsureContext();
             using (IDbCommand cmd = context.createCommand())
@@ -168,9 +170,9 @@ namespace SI2_G09.concrete
                 SqlParameter p2 = new SqlParameter("@articleID", SqlDbType.Int);
                 SqlParameter p3 = new SqlParameter("@reviewerID", SqlDbType.Int);
 
-                p1.Value = conferenceID;
-                p2.Value = articleID;
-                p3.Value = reviewerID;
+                p1.Value = e.ArtigoRevisto.Conferencia.Id;
+                p2.Value = e.ArtigoRevisto.ID;
+                p3.Value = e.Revisor.UserID.ID;
                 cmd.Parameters.Add(p1);
                 cmd.Parameters.Add(p2);
                 cmd.Parameters.Add(p3);
@@ -179,13 +181,13 @@ namespace SI2_G09.concrete
                 cmd.Parameters.Clear();
 
                 RevisorArtigo r = new RevisorArtigo();
-                Utilizador u = new Utilizador();
-                u.ID = reviewerID;
+                Revisor u = new Revisor();
+                u.UserID = e.Revisor.UserID;
                 r.Revisor = u;
                 Artigo a = new Artigo();
-                a.ID = articleID;
+                a.ID = e.ArtigoRevisto.ID;
                 Conferencia c = new Conferencia();
-                c.Id = conferenceID;
+                c.Id = e.ArtigoRevisto.Conferencia.Id;
                 a.Conferencia = c;
                 r.ArtigoRevisto = a;
                 return r;

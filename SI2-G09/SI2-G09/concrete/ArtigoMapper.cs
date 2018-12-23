@@ -43,13 +43,18 @@ namespace SI2_G09.concrete
 
         protected override string UpdateCommandText => throw new NotImplementedException();
 
-        protected override CommandType UpdateCommandType => throw new NotImplementedException();
+        protected override CommandType UpdateCommandType { get { return System.Data.CommandType.Text; } }
 
 		protected override string DeleteCommandText => throw new NotImplementedException();
 
         protected override string InsertCommandText => throw new NotImplementedException();
 
         protected override CommandType InsertCommandType => throw new NotImplementedException();
+
+        protected string ChangeSubmissonCommandText { get {
+                return "update Artigo set estado='Rejeitado'" +
+                " where conferenceID=@conferencia_id and data_submetido>@data_corte and estado != 'Aceite'";
+            } }
 
         protected override void DeleteParameters(IDbCommand command, Artigo e)
         {
@@ -80,6 +85,25 @@ namespace SI2_G09.concrete
         protected override Artigo UpdateParameters(Artigo e)
         {
             throw new NotImplementedException();
+        }
+
+        public Artigo ChangeSubmission(Artigo a, DateTime dataCorte)
+        {
+            EnsureContext();
+            using (IDbCommand cmd = context.createCommand())
+            {
+                cmd.CommandType = UpdateCommandType;
+                cmd.CommandText = ChangeSubmissonCommandText;
+                SqlParameter p1 = new SqlParameter("@conferencia_id", SqlDbType.Int);
+                SqlParameter p2 = new SqlParameter("@data_corte", SqlDbType.Date);
+                p1.Value = a.ID;
+                p2.Value = dataCorte;
+                cmd.Parameters.Add(p1);
+                cmd.Parameters.Add(p2);
+                int result = cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
+                return (result == 0) ? null : a;
+            }
         }
     }
 }

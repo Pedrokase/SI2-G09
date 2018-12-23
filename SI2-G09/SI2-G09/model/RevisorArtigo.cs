@@ -8,7 +8,7 @@ namespace SI2_G09.model
 {
     public class RevisorArtigo
     {
-        public virtual Utilizador Revisor { get; set; }
+        public virtual Revisor Revisor { get; set; }
 
         public virtual Artigo ArtigoRevisto { get; set; }
 

@@ -115,7 +115,7 @@ namespace DAL.mapper
         public virtual T Create(T entity)
         {
             if (entity == null)
-                throw new ArgumentException("The " + typeof(T) + " to update cannot be null");
+                throw new ArgumentException("The " + typeof(T) + " to create cannot be null");
             EnsureContext();
             //cmd.CommandText = InsertCommandText;
             //cmd.CommandType = InsertCommandType;

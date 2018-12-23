@@ -39,6 +39,8 @@ namespace SI2_G09.concrete
         protected string UpdateNomeCommandText { get { return "UpdateNome"; } }
 		protected string ReturnAcceptedSubmissionsPercentage { get { return "AcceptSubmissionRate";} }
 
+        
+
 
 		protected override CommandType InsertCommandType => throw new NotImplementedException();
 
