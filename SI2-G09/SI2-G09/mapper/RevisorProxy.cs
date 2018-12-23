@@ -15,6 +15,7 @@ namespace SI2_G09.mapper
         private int? utilizadorID;
         public RevisorProxy(Revisor s, IContext ctx, int? utilizadorId) : base()
         {
+            base.ID = s.ID;
             base.UserID = null;
             context = ctx;
         }

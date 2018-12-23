@@ -41,9 +41,12 @@ namespace SI2_G09
 				Console.WriteLine("Depois: Conferencia: {0}-{1}", c.Id, c.Nome);
 			}
 
-            //Alinea g)
+            //Alinea g) para revisor
 			using (Context ctx = new Context(connectionString))
 			{
+
+                UtilizadorMapper utilizadorMap = new UtilizadorMapper(ctx);
+                RevisorMapper revisorMapper = new RevisorMapper(ctx);
 
                 Console.WriteLine("FindAll Utilizadores");
 				foreach (var utilizador in ctx.Utilizadores.FindAll())
@@ -51,8 +54,7 @@ namespace SI2_G09
 					Console.WriteLine("Utilizador: {0}-{1}", utilizador.ID, utilizador.Email);
 				}
 
-				UtilizadorMapper utilizadorMap = new UtilizadorMapper(ctx);
-				int id = 1;
+                int id = 1;
                 //Ler o utilizador com id = 1, guardando essa em c
 				Utilizador c = utilizadorMap.Read(id);
                 Console.WriteLine("Utilizador que vai ficar revisor: {0}-{1}", c.ID, c.Email);
@@ -63,8 +65,8 @@ namespace SI2_G09
                     Console.WriteLine("Revisor: {0}-{1}", revisor.UserID.ID, revisor.UserID.Email);
                 }
                 Revisor r = new Revisor();
-                RevisorMapper revisorMapper = new RevisorMapper(ctx);
                 //Inserir um Utilizador com id=1 em Revisor
+                r.ID = 1;
                 r.UserID = c;
                 r = revisorMapper.Create(r);
                 Console.WriteLine("FindAll Revisores");
@@ -72,11 +74,46 @@ namespace SI2_G09
                 {
                     Console.WriteLine("Revisor: {0}-{1}", revisor.UserID.ID, revisor.UserID.Email);
                 }
-
 			}
-            
+
+            //Alinea g) para autor
+            using (Context ctx = new Context(connectionString))
+            {
+
+                UtilizadorMapper utilizadorMap = new UtilizadorMapper(ctx);
+                AutorMapper autorMapper = new AutorMapper(ctx);
+
+                Console.WriteLine("FindAll Utilizadores");
+                foreach (var utilizador in ctx.Utilizadores.FindAll())
+                {
+                    Console.WriteLine("Utilizador: {0}-{1}", utilizador.ID, utilizador.Email);
+                }
+
+                int id = 1;
+                //Ler o utilizador com id = 1, guardando essa em c
+                Utilizador c = utilizadorMap.Read(id);
+                Console.WriteLine("Utilizador que vai ficar revisor: {0}-{1}", c.ID, c.Email);
+
+                Console.WriteLine("FindAll Autores");
+                foreach (var autor in ctx.Autores.FindAll())
+                {
+                    Console.WriteLine("Autor: {0}-{1}", autor.UserID.ID, autor.UserID.Email);
+                }
+                Autor r = new Autor();
+                //Inserir um Utilizador com id=1 em Revisor
+                r.ID = 1;
+                r.UserID = c;
+                r = autorMapper.Create(r);
+                Console.WriteLine("FindAll Autor Após a criação");
+                foreach (var autor in ctx.Autores.FindAll())
+                {
+                    Console.WriteLine("Revisor: {0}-{1}", autor.UserID.ID, autor.UserID.Email);
+                }
+
+            }
 
 
-		}
+
+        }
 	}
 }
