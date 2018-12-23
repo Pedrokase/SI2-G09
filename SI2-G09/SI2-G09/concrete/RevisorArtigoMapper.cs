@@ -37,6 +37,10 @@ namespace SI2_G09.concrete
 
         protected override CommandType InsertCommandType => throw new NotImplementedException();
 
+        protected CommandType addReviewerToArticleCommandType { get { return CommandType.StoredProcedure; } }
+
+        protected string addReviewerToArticleCommandText { get { return "addReviewerToArticle"; } }
+
         protected override void DeleteParameters(IDbCommand command, RevisorArtigo e)
         {
             throw new NotImplementedException();
@@ -110,6 +114,41 @@ namespace SI2_G09.concrete
 			    cmd.ExecuteNonQuery();
 			    return e;
 		    }
+        
 		}
+        public RevisorArtigo addReviewerToArticle(int conferenceID, int articleID, int reviewerID)
+        {
+            EnsureContext();
+            using (IDbCommand cmd = context.createCommand())
+            {
+                cmd.CommandType = addReviewerToArticleCommandType;
+                cmd.CommandText = addReviewerToArticleCommandText;
+                SqlParameter p1 = new SqlParameter("@conferenceID", SqlDbType.Int);
+                SqlParameter p2 = new SqlParameter("@articleID", SqlDbType.Int);
+                SqlParameter p3 = new SqlParameter("@reviewerID", SqlDbType.Int);
+
+                p1.Value = conferenceID;
+                p2.Value = articleID;
+                p3.Value = reviewerID;
+                cmd.Parameters.Add(p1);
+                cmd.Parameters.Add(p2);
+                cmd.Parameters.Add(p3);
+
+                cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
+
+                RevisorArtigo r = new RevisorArtigo();
+                Utilizador u = new Utilizador();
+                u.ID = reviewerID;
+                r.Revisor = u;
+                Artigo a = new Artigo();
+                a.ID = articleID;
+                Conferencia c = new Conferencia();
+                c.Id = conferenceID;
+                a.Conferencia = c;
+                r.ArtigoRevisto = a;
+                return r;
+            }
+        }
     }
 }

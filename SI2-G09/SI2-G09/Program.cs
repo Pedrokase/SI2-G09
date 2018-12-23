@@ -112,6 +112,31 @@ namespace SI2_G09
 
             }
 
+            // alinea h)
+            using (Context ctx = new Context(connectionString))
+            {
+                RevisorMapper revisorMap = new RevisorMapper(ctx);
+                List<Revisor> r = revisorMap.ReadAll();
+                foreach (Revisor re in r)
+                {
+                    Console.WriteLine("Revisor: {0}", re.UserID.ID);
+                }
+                List<object> result = revisorMap.CompatibleReviewers(1, 1);
+                foreach (object id in result)
+                {
+                    Console.WriteLine("Revisores Compativeis: {0}", id);
+                }
+            }
+
+            // alinea i)
+            using (Context ctx = new Context(connectionString))
+            {
+                RevisorArtigoMapper revisorartigoMap = new RevisorArtigoMapper(ctx);
+                RevisorArtigo result = revisorartigoMap.addReviewerToArticle(1, 1, 6);
+                Console.WriteLine("Revisor {0} adicionado ao artigo {1} da conferencia {2}", result.Revisor.ID, result.ArtigoRevisto.ID, result.ArtigoRevisto.Conferencia.Id);
+
+            }
+
 
 
         }
