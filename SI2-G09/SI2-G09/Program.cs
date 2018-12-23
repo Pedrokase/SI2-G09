@@ -17,6 +17,20 @@ namespace SI2_G09
 			//TODO pool e outros
 			string connectionString = "Server=192.168.33.102;Database=SI2_T1;User Id=sisu; Password=#_su!si2";
 
+
+			//alinea j)
+			using (Context ctx = new Context(connectionString))
+			{
+				RevisorArtigoMapper revisorArtigoMapper = new RevisorArtigoMapper(ctx);
+
+				IEnumerable<RevisorArtigo> revisorArtigo = ctx.RevisorArtigos.FindAll();
+				foreach (var artigo in revisorArtigo)
+				{
+					revisorArtigoMapper.RegisterArticle(artigo, 10, "Teste");
+				}
+			}
+
+
             //alinea f)
 			using (Context ctx = new Context(connectionString))
 			{
@@ -74,10 +88,6 @@ namespace SI2_G09
                 }
 
 			}
-
-			#endregion FindAll
-
-
 		}
 	}
 }
