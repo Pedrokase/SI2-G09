@@ -47,6 +47,8 @@ namespace SI2_G09.concrete
 
         protected override string InsertCommandText { get { return "UtilizadorToRevisor"; } }
 
+        protected string CompatibleReviewersCommandText { get { return "SELECT * FROM listCompatibleReviewers(@conferenceID, @articleID)"; } }
+
         protected override CommandType InsertCommandType { get { return System.Data.CommandType.StoredProcedure; } }
 
         protected override void DeleteParameters(IDbCommand command, Revisor e)
@@ -95,7 +97,33 @@ namespace SI2_G09.concrete
         {
             throw new NotImplementedException();
         }
+        public List<object> CompatibleReviewers(int conferenceID, int articleID)
+        {
+            EnsureContext();
+            using (IDbCommand cmd = context.createCommand())
+            {
+                cmd.CommandText = CompatibleReviewersCommandText;
+                SqlParameter p1 = new SqlParameter("@conferenceID", SqlDbType.Int);
+                SqlParameter p2 = new SqlParameter("@articleID", SqlDbType.Int);
 
-    
-    }
+                p1.Direction = ParameterDirection.Input;
+                p2.Direction = ParameterDirection.Input;
+                p1.Value = conferenceID;
+                p2.Value = articleID;
+
+                cmd.Parameters.Add(p1);
+                cmd.Parameters.Add(p2);
+
+                IDataReader reader = cmd.ExecuteReader();
+                cmd.Parameters.Clear();
+                List<object> result = new List<object>();
+                while (reader.Read())
+                {
+                    result.Add(reader[0]);
+                }
+                return result;
+            }
+        }
+
+        }
 }
