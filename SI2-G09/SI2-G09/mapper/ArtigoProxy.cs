@@ -5,16 +5,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SI2_G09.concrete;
 
 namespace SI2_G09.mapper
 {
-    class ArtigoProxy
+    class ArtigoProxy : Artigo
     {
         private IContext context;
-        public ArtigoProxy(Artigo c, IContext ctx) : base()
+	    private int? conferenceId;
+        public ArtigoProxy(Artigo article, IContext ctx, int conferenceId) : base()
         {
-           
+			Conferencia conf = new Conferencia();
+	        conf.Id = conferenceId;
+	        base.Conferencia = conf;
+	        context = ctx;
         }
-       
+
+	    public override Conferencia Conferencia
+	    {
+		    get
+		    {
+			    if (base.Conferencia == null)
+			    {
+				    ArtigoMapper am = new ArtigoMapper(context);
+				    base.Conferencia = am.LoadConference(this);
+			    }
+
+			    return base.Conferencia;
+		    }
+		    set { base.Conferencia = value; }
+	    }
     }
 }

@@ -5,6 +5,7 @@ using SI2_G09.model;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,25 @@ namespace SI2_G09.concrete
         {
         }
 
-        protected override string SelectAllCommandText => throw new NotImplementedException();
+	    internal Conferencia LoadConference(Artigo article)
+	    {
+		    ConferenciaMapper cm = new ConferenciaMapper(context);
+		    List<IDataParameter> parameters = new List<IDataParameter>();
+		    parameters.Add(new SqlParameter("@id", article.Conferencia.Id));
+		    int key = 0;
+		    using (IDataReader rd = ExecuteReader("select conferenceID from artigo where conferenceID=@id", parameters))
+		    {
+			    if (rd.Read())
+			    {
+				    key = rd.GetInt32(0);
+			    }
+
+		    }
+
+		    return cm.Read(key);
+	    }
+
+	    protected override string SelectAllCommandText => throw new NotImplementedException();
 
         protected override string SelectCommandText => throw new NotImplementedException();
 
@@ -26,7 +45,7 @@ namespace SI2_G09.concrete
 
         protected override CommandType UpdateCommandType => throw new NotImplementedException();
 
-        protected override string DeleteCommandText => throw new NotImplementedException();
+		protected override string DeleteCommandText => throw new NotImplementedException();
 
         protected override string InsertCommandText => throw new NotImplementedException();
 

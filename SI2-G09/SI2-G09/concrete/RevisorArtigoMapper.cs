@@ -14,6 +14,44 @@ namespace SI2_G09.concrete
 {
     class RevisorArtigoMapper : AbstracMapper<RevisorArtigo, int?, List<RevisorArtigo>>, IRevisorArtigoMapper
     {
+
+	    internal Artigo LoadArtigos(RevisorArtigo ra)
+	    {
+			ArtigoMapper am = new ArtigoMapper(context);
+		    List<IDataParameter> parameters = new List<IDataParameter>();
+		    parameters.Add(new SqlParameter("@id", ra.ArtigoRevisto.ID));
+		    int key = 0;
+		    using (IDataReader rd = ExecuteReader("select ID from Revisor_Artigo where ID=@id", parameters))
+		    {
+			    if (rd.Read())
+			    {
+				    key = rd.GetInt32(0);
+
+			    }
+
+		    }
+		    return am.Read(key);
+		}
+
+	    internal Utilizador LoadUtilizador(RevisorArtigo ra)
+	    {
+		    UtilizadorMapper um = new UtilizadorMapper(context);
+		    List<IDataParameter> parameters = new List<IDataParameter>();
+		    parameters.Add(new SqlParameter("@id", ra.Revisor.ID));
+		    //parameters.Add(new SqlParameter("@id", r.ID));
+		    int key = 0;
+		    using (IDataReader rd = ExecuteReader("select userID from Revisor_Artigo where userID=@id", parameters))
+		    {
+			    if (rd.Read())
+			    {
+				    key = rd.GetInt32(0);
+
+			    }
+
+		    }
+		    return um.Read(key);
+		}
+
 		private string RegisterArticleProcedure
 		{
 			get { return "RegistoRevisao"; }
@@ -26,6 +64,8 @@ namespace SI2_G09.concrete
 	    protected override string SelectAllCommandText { get { return "select * from Revisor_Artigo"; } }
 
 	    protected override string SelectCommandText { get { return String.Format("{0} where userID=@userID AND ID=@ID AND conferenceID=@conferenceID", SelectAllCommandText); } }
+
+
 
 		protected override string UpdateCommandText => throw new NotImplementedException();
 
@@ -116,6 +156,7 @@ namespace SI2_G09.concrete
 		    }
         
 		}
+
         public RevisorArtigo addReviewerToArticle(int conferenceID, int articleID, int reviewerID)
         {
             EnsureContext();
