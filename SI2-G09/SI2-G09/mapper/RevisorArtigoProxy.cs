@@ -20,8 +20,8 @@ namespace SI2_G09.mapper
 			Artigo article = new Artigo();
 			article.ID = articleId;
 
-			Utilizador user = new Utilizador();
-			user.ID = userId;
+			Revisor user = new Revisor();
+			user.UserID.ID = userId;
 
 			base.ArtigoRevisto = article;
 			base.Revisor = user;
@@ -44,14 +44,14 @@ namespace SI2_G09.mapper
 			set { base.ArtigoRevisto = value; }
 		}
 
-		public override Utilizador Revisor
+		public override Revisor Revisor
 		{
 			get
 			{
 				if (base.Revisor == null)
 				{
 					RevisorArtigoMapper ram = new RevisorArtigoMapper(context);
-					base.Revisor = ram.LoadUtilizador(this);
+					base.Revisor = ram.LoadRevisor(this);
 				}
 
 				return base.Revisor;

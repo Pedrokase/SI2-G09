@@ -37,9 +37,9 @@ namespace SI2_G09.concrete
 		    return cm.Read(key);
 	    }
 
-	    protected override string SelectAllCommandText => throw new NotImplementedException();
+	    protected override string SelectAllCommandText { get { return "select * from Artigo"; } }
 
-        protected override string SelectCommandText => throw new NotImplementedException();
+        protected override string SelectCommandText { get { return String.Format("{0} where ID=@id", SelectAllCommandText); } }
 
         protected override string UpdateCommandText => throw new NotImplementedException();
 
@@ -69,12 +69,20 @@ namespace SI2_G09.concrete
 
         protected override Artigo Map(IDataRecord record)
         {
-            throw new NotImplementedException();
+            Artigo a = new Artigo();
+            //Conferencia c = new Conferencia();
+            a.ID = record.GetInt32(0);
+            //c.Id = record.GetInt32(1);
+            a.Resumo = record.GetString(2);
+            a.DataSubmetido = record.GetDateTime(3);
+            a.Estado = record.GetString(4);
+            return new ArtigoProxy(a,context, record.GetInt32(1));
         }
 
         protected override void SelectParameters(IDbCommand command, int? k)
         {
-            throw new NotImplementedException();
+            SqlParameter p1 = new SqlParameter("@id", k);
+            command.Parameters.Add(p1);
         }
 
         protected override Artigo UpdateEntityID(IDbCommand cmd, Artigo e)
@@ -90,19 +98,36 @@ namespace SI2_G09.concrete
         public Artigo ChangeSubmission(Artigo a, DateTime dataCorte)
         {
             EnsureContext();
+            SetDataCorte(a, dataCorte);
             using (IDbCommand cmd = context.createCommand())
             {
+                
                 cmd.CommandType = UpdateCommandType;
                 cmd.CommandText = ChangeSubmissonCommandText;
                 SqlParameter p1 = new SqlParameter("@conferencia_id", SqlDbType.Int);
                 SqlParameter p2 = new SqlParameter("@data_corte", SqlDbType.Date);
-                p1.Value = a.ID;
+                p1.Value = a.Conferencia.Id;
                 p2.Value = dataCorte;
                 cmd.Parameters.Add(p1);
                 cmd.Parameters.Add(p2);
                 int result = cmd.ExecuteNonQuery();
                 cmd.Parameters.Clear();
                 return (result == 0) ? null : a;
+            }
+        }
+        public bool SetDataCorte(Artigo a, DateTime dataCorte)
+        {
+            using(IDbCommand cmd = context.createCommand())
+            {
+                cmd.CommandType = UpdateCommandType;
+                cmd.CommandText = "if @data_corte = NULL select @data_corte = data_revisao from Conferencia where ID = @conferencia_id";
+                SqlParameter p1 = new SqlParameter("@data_corte", SqlDbType.Date);
+                SqlParameter p2 = new SqlParameter("@conferencia_id", SqlDbType.Int);
+                p1.Value = dataCorte;
+                p2.Value = a.Conferencia.Id;
+                int result = cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
+                return (result == 0) ? false : true;
             }
         }
     }

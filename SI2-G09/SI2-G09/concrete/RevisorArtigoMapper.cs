@@ -14,45 +14,43 @@ namespace SI2_G09.concrete
 {
     class RevisorArtigoMapper : AbstracMapper<RevisorArtigo, int?, List<RevisorArtigo>>, IRevisorArtigoMapper
     {
+        internal Artigo LoadArtigos(RevisorArtigo ra)
+        {
+            ArtigoMapper am = new ArtigoMapper(context);
+            List<IDataParameter> parameters = new List<IDataParameter>();
+            parameters.Add(new SqlParameter("@id", ra.ArtigoRevisto.ID));
+            int key = 0;
+            using (IDataReader rd = ExecuteReader("select ID from Revisor_Artigo where ID=@id", parameters))
+            {
+                if (rd.Read())
+                {
+                    key = rd.GetInt32(0);
 
-	    internal Artigo LoadArtigos(RevisorArtigo ra)
-	    {
-			ArtigoMapper am = new ArtigoMapper(context);
-		    List<IDataParameter> parameters = new List<IDataParameter>();
-		    parameters.Add(new SqlParameter("@id", ra.ArtigoRevisto.ID));
-		    int key = 0;
-		    using (IDataReader rd = ExecuteReader("select ID from Revisor_Artigo where ID=@id", parameters))
-		    {
-			    if (rd.Read())
-			    {
-				    key = rd.GetInt32(0);
+                }
 
-			    }
+            }
+            return am.Read(key);
+        }
 
-		    }
-		    return am.Read(key);
-		}
+        internal Revisor LoadRevisor(RevisorArtigo ra)
+        {
+            RevisorMapper um = new RevisorMapper(context);
+            List<IDataParameter> parameters = new List<IDataParameter>();
+            parameters.Add(new SqlParameter("@id", ra.Revisor.UserID.ID));
+            //parameters.Add(new SqlParameter("@id", r.ID));
+            int key = 0;
+            using (IDataReader rd = ExecuteReader("select userID from Revisor_Artigo where userID=@id", parameters))
+            {
+                if (rd.Read())
+                {
+                    key = rd.GetInt32(0);
 
-	    internal Utilizador LoadUtilizador(RevisorArtigo ra)
-	    {
-		    UtilizadorMapper um = new UtilizadorMapper(context);
-		    List<IDataParameter> parameters = new List<IDataParameter>();
-		    parameters.Add(new SqlParameter("@id", ra.Revisor.ID));
-		    //parameters.Add(new SqlParameter("@id", r.ID));
-		    int key = 0;
-		    using (IDataReader rd = ExecuteReader("select userID from Revisor_Artigo where userID=@id", parameters))
-		    {
-			    if (rd.Read())
-			    {
-				    key = rd.GetInt32(0);
+                }
 
-			    }
-
-		    }
-		    return um.Read(key);
-		}
-
-		private string RegisterArticleProcedure
+            }
+            return um.Read(key);
+        }
+        private string RegisterArticleProcedure
 		{
 			get { return "RegistoRevisao"; }
 		}
@@ -65,11 +63,9 @@ namespace SI2_G09.concrete
 
 	    protected override string SelectCommandText { get { return String.Format("{0} where userID=@userID AND ID=@ID AND conferenceID=@conferenceID", SelectAllCommandText); } }
 
-
-
 		protected override string UpdateCommandText => throw new NotImplementedException();
 
-        protected override CommandType UpdateCommandType => throw new NotImplementedException();
+        protected override CommandType UpdateCommandType { get { return CommandType.StoredProcedure; } }
 
         protected override string DeleteCommandText => throw new NotImplementedException();
 
@@ -123,10 +119,12 @@ namespace SI2_G09.concrete
 
         protected override RevisorArtigo UpdateParameters(RevisorArtigo e)
         {
-            throw new NotImplementedException();
+            RevisorArtigo r;
+            r = RegisterArticle(e);
+            return r;
         }
 
-	    public RevisorArtigo RegisterArticle(RevisorArtigo e, int grade, string text)
+	    public RevisorArtigo RegisterArticle(RevisorArtigo e)
 	    {
 			EnsureContext();
 		    using (IDbCommand cmd = context.createCommand())
@@ -143,8 +141,8 @@ namespace SI2_G09.concrete
 			    userIdParam.Value = e.Revisor.UserID.ID;
 			    articleIdParam.Value = e.ArtigoRevisto.ID;
 			    conferenceIdParam.Value = e.ArtigoRevisto.Conferencia.Id;
-			    gradeParam.Value = grade;
-			    articleTextParam.Value = text;
+			    gradeParam.Value = e.Nota;
+			    articleTextParam.Value = e.Texto;
 
 			    cmd.Parameters.Add(userIdParam);
 			    cmd.Parameters.Add(articleIdParam);

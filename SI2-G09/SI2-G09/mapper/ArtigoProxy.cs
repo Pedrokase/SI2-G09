@@ -16,6 +16,10 @@ namespace SI2_G09.mapper
         public ArtigoProxy(Artigo article, IContext ctx, int conferenceId) : base()
         {
 			Conferencia conf = new Conferencia();
+            base.ID = article.ID;
+            base.DataSubmetido = article.DataSubmetido;
+            base.Resumo = article.Resumo;
+            base.Estado = article.Estado;
 	        conf.Id = conferenceId;
 	        base.Conferencia = conf;
 	        context = ctx;

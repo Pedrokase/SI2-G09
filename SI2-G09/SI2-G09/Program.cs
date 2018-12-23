@@ -18,25 +18,9 @@ namespace SI2_G09
             string connectionString = "Server=192.168.33.102;Database=SI2_T1;User Id=sisu; Password=#_su!si2";
             //string connectionString = "Server=RICARDO;Database=SI2_T1;User Id=sa; Password=1234";
             
-
-			//alinea j)
-			using (Context ctx = new Context(connectionString))
-			{
-				RevisorArtigoMapper revisorArtigoMapper = new RevisorArtigoMapper(ctx);
-
-				IEnumerable<RevisorArtigo> revisorArtigo = ctx.RevisorArtigos.FindAll();
-				foreach (var artigo in revisorArtigo)
-				{
-					revisorArtigoMapper.RegisterArticle(artigo, 10, "Teste");
-				}
-			}
-
-
             //alinea f)
             using (Context ctx = new Context(connectionString))
 			{
-
-
 				Console.WriteLine("FindAll");
 				foreach (var conferencia in ctx.Conferencias.FindAll())
 				{
@@ -143,15 +127,51 @@ namespace SI2_G09
             }
 
             // alinea i)
-            /*using (Context ctx = new Context(connectionString))
+            using (Context ctx = new Context(connectionString))
             {
                 RevisorArtigoMapper revisorartigoMap = new RevisorArtigoMapper(ctx);
+                RevisorMapper revisorMapper = new RevisorMapper(ctx);
+                ArtigoMapper artigoMapper = new ArtigoMapper(ctx);
+                ConferenciaMapper conferenciaMapper = new ConferenciaMapper(ctx);
                 RevisorArtigo newRevisorArtigo = new RevisorArtigo();
-                newRevisorArtigo.
-                RevisorArtigo result = revisorartigoMap.addReviewerToArticle(1, 1, 6);
-                Console.WriteLine("Revisor {0} adicionado ao artigo {1} da conferencia {2}", result.Revisor.ID, result.ArtigoRevisto.ID, result.ArtigoRevisto.Conferencia.Id);
+                
+                Conferencia c = conferenciaMapper.Read(1);
+                Revisor r = revisorMapper.Read(6);
+                Artigo a = artigoMapper.Read(1);
+                
+                newRevisorArtigo.ArtigoRevisto = a;
+                newRevisorArtigo.Revisor = r;
+                newRevisorArtigo.Nota = 100;
+                newRevisorArtigo.Texto = "nova revisão";
+                RevisorArtigo result = revisorartigoMap.Create(newRevisorArtigo);
+                Console.WriteLine("Revisor {0} adicionado ao artigo {1} da conferencia {2}", result.Revisor.UserID.ID, result.ArtigoRevisto.ID, result.ArtigoRevisto.Conferencia.Id);
 
-            }*/
+            }
+
+            //alinea j)
+            using (Context ctx = new Context(connectionString))
+            {
+                RevisorArtigoMapper revisorArtigoMapper = new RevisorArtigoMapper(ctx);
+                ArtigoMapper artigoMapper = new ArtigoMapper(ctx);
+                RevisorMapper revisorMapper = new RevisorMapper(ctx);
+                RevisorArtigo e = new RevisorArtigo();
+                Artigo a = artigoMapper.Read(1);
+                Revisor r = revisorMapper.Read(5);
+                e.ArtigoRevisto = a;
+                e.Nota = 10;
+                e.Texto = "Teste";
+                e.Revisor = r;
+                foreach (var ra in ctx.RevisorArtigos.FindAll())
+                {
+                    Console.WriteLine("ID do Artigo com Revisor {0} com o texto {1}", ra.ArtigoRevisto.ID, ra.Texto);
+                }
+                RevisorArtigo result = revisorArtigoMapper.Update(e);
+                Console.WriteLine("Alteração do artigo ID = {0} para o texto {1}", result.ArtigoRevisto.ID, result.Texto);
+
+                
+            }
+
+
 
         }
 	}
