@@ -424,12 +424,6 @@ namespace SI2_G09
 
                     newRevisorArtigo.ArtigoRevisto = a;
                     newRevisorArtigo.Revisor = r;
-                    Console.WriteLine("(100)Insira nota");
-                    int n = Convert.ToInt32(Console.ReadLine());
-                    newRevisorArtigo.Nota = n;
-                    Console.WriteLine("(nova revisao)Insira texto");
-                    string s = Console.ReadLine();
-                    newRevisorArtigo.Texto = s;
                     RevisorArtigo result = revisorartigoMap.Create(newRevisorArtigo);
                     Console.WriteLine("Revisor {0} adicionado ao artigo {1} da conferencia {2}", result.Revisor.UserID.ID, result.ArtigoRevisto.ID, result.ArtigoRevisto.Conferencia.Id);
 
