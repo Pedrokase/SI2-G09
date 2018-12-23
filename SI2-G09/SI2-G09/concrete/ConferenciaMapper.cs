@@ -91,7 +91,7 @@ namespace SI2_G09.concrete
             return c;
         }
 
-        protected Conferencia UpdateNotaConferencia(Conferencia e)
+        public Conferencia UpdateNotaConferencia(Conferencia e)
         {
             EnsureContext();
             using (IDbCommand cmd = context.createCommand())

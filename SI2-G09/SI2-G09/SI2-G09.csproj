@@ -112,6 +112,7 @@
     <Compile Include="model\RevisorArtigo.cs" />
     <Compile Include="model\Utilizador.cs" />
     <Compile Include="model\UtilizadorInstituicao.cs" />
+    <Compile Include="NBench.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
