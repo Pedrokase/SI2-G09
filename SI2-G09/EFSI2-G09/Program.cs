@@ -259,7 +259,7 @@ namespace EFSI2_G09
         {
             using (SI2_T1Entities db = new SI2_T1Entities())
             {
-                Console.WriteLine("(3)Insira UserID");
+                Console.WriteLine("(3)Insira conferencia");
                 int i1 = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("(2018-03-01)Insira data");
                 string s = Console.ReadLine();

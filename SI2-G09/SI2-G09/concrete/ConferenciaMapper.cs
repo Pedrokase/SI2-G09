@@ -233,6 +233,7 @@ namespace SI2_G09.concrete
 			    {
 					throw new Exception();
 			    }
+                cmd.Parameters.Clear();
 
 			    return (int) retVal.Value;
 		    }

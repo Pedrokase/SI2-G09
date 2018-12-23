@@ -488,7 +488,7 @@ namespace SI2_G09
                 {
                     Console.WriteLine("(1)Insira ArtigoID");
                     int n = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("(1)Insira ConferenciaID");
+                    Console.WriteLine("(3)Insira ConferenciaID");
                     int n1 = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("(2018-03-12)Insira data corte");
                     string s = Console.ReadLine();
