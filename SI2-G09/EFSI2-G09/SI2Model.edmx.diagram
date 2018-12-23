@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="96a098fa3c134e449a0bfa5751e859e6" Name="Diagram1">
+        <EntityTypeShape EntityType="SI2_T1Model.Artigo" Width="1.5" PointX="5.25" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SI2_T1Model.Autor" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SI2_T1Model.Autor_Artigo" Width="1.5" PointX="7.5" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SI2_T1Model.Conferencia" Width="1.5" PointX="3" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SI2_T1Model.Conferencia_Utilizador" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SI2_T1Model.FicheiroPDF" Width="1.5" PointX="7.5" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SI2_T1Model.Instituicao" Width="1.5" PointX="3" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SI2_T1Model.Revisor" Width="1.5" PointX="3" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SI2_T1Model.Revisor_Artigo" Width="1.5" PointX="10.5" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="SI2_T1Model.Utilizador" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
+        <AssociationConnector Association="SI2_T1Model.aa_artigo_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="SI2_T1Model.artigo_conf_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="SI2_T1Model.pdf_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="SI2_T1Model.ra_artigo_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="SI2_T1Model.autor_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="SI2_T1Model.aa_user_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="SI2_T1Model.cu_conf_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="SI2_T1Model.FK__Conferenc__presi__391958F9" ManuallyRouted="false" />
+        <AssociationConnector Association="SI2_T1Model.cu_user_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="SI2_T1Model.revisor_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="SI2_T1Model.ra_user_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="SI2_T1Model.Utilizador_Instituicao" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

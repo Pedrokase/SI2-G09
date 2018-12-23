@@ -1,0 +1,1014 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SI2_T1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Artigo">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="conferenceID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="conferenceID" Type="int" Nullable="false" />
+          <Property Name="resumo" Type="nvarchar" MaxLength="2000" />
+          <Property Name="data_submetido" Type="date" Nullable="false" />
+          <Property Name="estado" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Autor">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Autor_Artigo">
+          <Key>
+            <PropertyRef Name="userID" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="conferenceID" />
+          </Key>
+          <Property Name="userID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="conferenceID" Type="int" Nullable="false" />
+          <Property Name="notify_email" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Conferencia">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ano" Type="int" Nullable="false" />
+          <Property Name="acronimo" Type="nvarchar" MaxLength="50" />
+          <Property Name="data_submissao" Type="date" Nullable="false" />
+          <Property Name="data_revisao" Type="date" />
+          <Property Name="presidente" Type="int" Nullable="false" />
+          <Property Name="nota_minima" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Conferencia_Utilizador">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" Nullable="false" />
+          <Property Name="conferenceID" Type="int" Nullable="false" />
+          <Property Name="data_registo" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FicheiroPDF">
+          <Key>
+            <PropertyRef Name="file_version" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="conferenceID" />
+          </Key>
+          <Property Name="file_version" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="conferenceID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Instituicao">
+          <Key>
+            <PropertyRef Name="nome" />
+          </Key>
+          <Property Name="nome" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="morada" Type="nvarchar" MaxLength="100" />
+          <Property Name="pais" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Revisor">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Revisor_Artigo">
+          <Key>
+            <PropertyRef Name="userID" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="conferenceID" />
+          </Key>
+          <Property Name="userID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="conferenceID" Type="int" Nullable="false" />
+          <Property Name="nota" Type="int" />
+          <Property Name="texto" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Utilizador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" />
+          <Property Name="nome" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Utilizador_Instituicao">
+          <Key>
+            <PropertyRef Name="userID" />
+            <PropertyRef Name="nome_instituicao" />
+          </Key>
+          <Property Name="userID" Type="int" Nullable="false" />
+          <Property Name="nome_instituicao" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="aa_artigo_fk">
+          <End Role="Artigo" Type="Self.Artigo" Multiplicity="1" />
+          <End Role="Autor_Artigo" Type="Self.Autor_Artigo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artigo">
+              <PropertyRef Name="ID" />
+              <PropertyRef Name="conferenceID" />
+            </Principal>
+            <Dependent Role="Autor_Artigo">
+              <PropertyRef Name="ID" />
+              <PropertyRef Name="conferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="aa_user_fk">
+          <End Role="Utilizador" Type="Self.Utilizador" Multiplicity="1" />
+          <End Role="Autor_Artigo" Type="Self.Autor_Artigo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilizador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Autor_Artigo">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="artigo_conf_fk">
+          <End Role="Conferencia" Type="Self.Conferencia" Multiplicity="1" />
+          <End Role="Artigo" Type="Self.Artigo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conferencia">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Artigo">
+              <PropertyRef Name="conferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="autor_fk">
+          <End Role="Utilizador" Type="Self.Utilizador" Multiplicity="1" />
+          <End Role="Autor" Type="Self.Autor" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Utilizador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Autor">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cu_conf_fk">
+          <End Role="Conferencia" Type="Self.Conferencia" Multiplicity="1" />
+          <End Role="Conferencia_Utilizador" Type="Self.Conferencia_Utilizador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conferencia">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Conferencia_Utilizador">
+              <PropertyRef Name="conferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cu_user_fk">
+          <End Role="Utilizador" Type="Self.Utilizador" Multiplicity="1" />
+          <End Role="Conferencia_Utilizador" Type="Self.Conferencia_Utilizador" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Utilizador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Conferencia_Utilizador">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Conferenc__presi__391958F9">
+          <End Role="Utilizador" Type="Self.Utilizador" Multiplicity="1" />
+          <End Role="Conferencia" Type="Self.Conferencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilizador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Conferencia">
+              <PropertyRef Name="presidente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="pdf_fk">
+          <End Role="Artigo" Type="Self.Artigo" Multiplicity="1" />
+          <End Role="FicheiroPDF" Type="Self.FicheiroPDF" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artigo">
+              <PropertyRef Name="ID" />
+              <PropertyRef Name="conferenceID" />
+            </Principal>
+            <Dependent Role="FicheiroPDF">
+              <PropertyRef Name="ID" />
+              <PropertyRef Name="conferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ra_artigo_fk">
+          <End Role="Artigo" Type="Self.Artigo" Multiplicity="1" />
+          <End Role="Revisor_Artigo" Type="Self.Revisor_Artigo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artigo">
+              <PropertyRef Name="ID" />
+              <PropertyRef Name="conferenceID" />
+            </Principal>
+            <Dependent Role="Revisor_Artigo">
+              <PropertyRef Name="ID" />
+              <PropertyRef Name="conferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ra_user_fk">
+          <End Role="Utilizador" Type="Self.Utilizador" Multiplicity="1" />
+          <End Role="Revisor_Artigo" Type="Self.Revisor_Artigo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilizador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Revisor_Artigo">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="revisor_fk">
+          <End Role="Utilizador" Type="Self.Utilizador" Multiplicity="1" />
+          <End Role="Revisor" Type="Self.Revisor" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Utilizador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Revisor">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ui_email_fk">
+          <End Role="Utilizador" Type="Self.Utilizador" Multiplicity="1" />
+          <End Role="Utilizador_Instituicao" Type="Self.Utilizador_Instituicao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilizador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Utilizador_Instituicao">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ui_nome_fk">
+          <End Role="Instituicao" Type="Self.Instituicao" Multiplicity="1" />
+          <End Role="Utilizador_Instituicao" Type="Self.Utilizador_Instituicao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Instituicao">
+              <PropertyRef Name="nome" />
+            </Principal>
+            <Dependent Role="Utilizador_Instituicao">
+              <PropertyRef Name="nome_instituicao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AcceptSubmissionRate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="conferencia_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="addReviewerToArticle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="conferenceID" Type="int" Mode="In" />
+          <Parameter Name="articleID" Type="int" Mode="In" />
+          <Parameter Name="reviewerID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ChangeSubmission" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="data_corte" Type="date" Mode="In" />
+          <Parameter Name="conferencia_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="CreateUtilizador" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="newUser_email" Type="nvarchar" Mode="In" />
+          <Parameter Name="user_nome" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="DeleteUtilizador" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="isDateLowerThanCurrentDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="date" Type="date" Mode="In" />
+        </Function>
+        <Function Name="isNewDateLowerThanOldDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="new_date" Type="date" Mode="In" />
+          <Parameter Name="old_date" Type="date" Mode="In" />
+        </Function>
+        <Function Name="listCompatibleReviewers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="conferenceID" Type="int" Mode="In" />
+          <Parameter Name="articleID" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="userID" Type="int" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="RegistoRevisao" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user_id" Type="int" Mode="In" />
+          <Parameter Name="artigo_id" Type="int" Mode="In" />
+          <Parameter Name="conferencia_id" Type="int" Mode="In" />
+          <Parameter Name="nota" Type="int" Mode="In" />
+          <Parameter Name="texto" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="revisedArticle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateAcronimo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="conferenceID" Type="int" Mode="In" />
+          <Parameter Name="newAcronimo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateAllInfoUtilizador" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user_id" Type="int" Mode="In" />
+          <Parameter Name="newUser_email" Type="nvarchar" Mode="In" />
+          <Parameter Name="user_nome" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateDataRevisao" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="conferenceID" Type="int" Mode="In" />
+          <Parameter Name="date" Type="date" Mode="In" />
+        </Function>
+        <Function Name="UpdateDataSubmissao" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="conferenceID" Type="int" Mode="In" />
+          <Parameter Name="date" Type="date" Mode="In" />
+        </Function>
+        <Function Name="UpdateEmailUtilizador" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user_id" Type="int" Mode="In" />
+          <Parameter Name="newUser_email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateNome" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="conferenceID" Type="int" Mode="In" />
+          <Parameter Name="newName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateNomeUtilizador" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user_id" Type="int" Mode="In" />
+          <Parameter Name="user_nome" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateNotaConferencia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="conferenceID" Type="int" Mode="In" />
+          <Parameter Name="nota" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdatePresidente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="conferenceID" Type="int" Mode="In" />
+          <Parameter Name="newPresidentID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateUtilizador" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user_mail" Type="nvarchar" Mode="In" />
+          <Parameter Name="newUser_email" Type="nvarchar" Mode="In" />
+          <Parameter Name="user_nome" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UtilizadorToAutor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user_mail" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UtilizadorToRevisor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user_mail" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="wroteArticle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user_id" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="SI2_T1ModelStoreContainer">
+          <EntitySet Name="Artigo" EntityType="Self.Artigo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Autor" EntityType="Self.Autor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Autor_Artigo" EntityType="Self.Autor_Artigo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Conferencia" EntityType="Self.Conferencia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Conferencia_Utilizador" EntityType="Self.Conferencia_Utilizador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FicheiroPDF" EntityType="Self.FicheiroPDF" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Instituicao" EntityType="Self.Instituicao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Revisor" EntityType="Self.Revisor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Revisor_Artigo" EntityType="Self.Revisor_Artigo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Utilizador" EntityType="Self.Utilizador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Utilizador_Instituicao" EntityType="Self.Utilizador_Instituicao" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="aa_artigo_fk" Association="Self.aa_artigo_fk">
+            <End Role="Artigo" EntitySet="Artigo" />
+            <End Role="Autor_Artigo" EntitySet="Autor_Artigo" />
+          </AssociationSet>
+          <AssociationSet Name="aa_user_fk" Association="Self.aa_user_fk">
+            <End Role="Utilizador" EntitySet="Utilizador" />
+            <End Role="Autor_Artigo" EntitySet="Autor_Artigo" />
+          </AssociationSet>
+          <AssociationSet Name="artigo_conf_fk" Association="Self.artigo_conf_fk">
+            <End Role="Conferencia" EntitySet="Conferencia" />
+            <End Role="Artigo" EntitySet="Artigo" />
+          </AssociationSet>
+          <AssociationSet Name="autor_fk" Association="Self.autor_fk">
+            <End Role="Utilizador" EntitySet="Utilizador" />
+            <End Role="Autor" EntitySet="Autor" />
+          </AssociationSet>
+          <AssociationSet Name="cu_conf_fk" Association="Self.cu_conf_fk">
+            <End Role="Conferencia" EntitySet="Conferencia" />
+            <End Role="Conferencia_Utilizador" EntitySet="Conferencia_Utilizador" />
+          </AssociationSet>
+          <AssociationSet Name="cu_user_fk" Association="Self.cu_user_fk">
+            <End Role="Utilizador" EntitySet="Utilizador" />
+            <End Role="Conferencia_Utilizador" EntitySet="Conferencia_Utilizador" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Conferenc__presi__391958F9" Association="Self.FK__Conferenc__presi__391958F9">
+            <End Role="Utilizador" EntitySet="Utilizador" />
+            <End Role="Conferencia" EntitySet="Conferencia" />
+          </AssociationSet>
+          <AssociationSet Name="pdf_fk" Association="Self.pdf_fk">
+            <End Role="Artigo" EntitySet="Artigo" />
+            <End Role="FicheiroPDF" EntitySet="FicheiroPDF" />
+          </AssociationSet>
+          <AssociationSet Name="ra_artigo_fk" Association="Self.ra_artigo_fk">
+            <End Role="Artigo" EntitySet="Artigo" />
+            <End Role="Revisor_Artigo" EntitySet="Revisor_Artigo" />
+          </AssociationSet>
+          <AssociationSet Name="ra_user_fk" Association="Self.ra_user_fk">
+            <End Role="Utilizador" EntitySet="Utilizador" />
+            <End Role="Revisor_Artigo" EntitySet="Revisor_Artigo" />
+          </AssociationSet>
+          <AssociationSet Name="revisor_fk" Association="Self.revisor_fk">
+            <End Role="Utilizador" EntitySet="Utilizador" />
+            <End Role="Revisor" EntitySet="Revisor" />
+          </AssociationSet>
+          <AssociationSet Name="ui_email_fk" Association="Self.ui_email_fk">
+            <End Role="Utilizador" EntitySet="Utilizador" />
+            <End Role="Utilizador_Instituicao" EntitySet="Utilizador_Instituicao" />
+          </AssociationSet>
+          <AssociationSet Name="ui_nome_fk" Association="Self.ui_nome_fk">
+            <End Role="Instituicao" EntitySet="Instituicao" />
+            <End Role="Utilizador_Instituicao" EntitySet="Utilizador_Instituicao" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SI2_T1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <ComplexType Name="listCompatibleReviewers_Result">
+          <Property Name="userID" Type="Int32" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="Artigo">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="conferenceID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="conferenceID" Type="Int32" Nullable="false" />
+          <Property Name="resumo" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="data_submetido" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Autor_Artigo" Relationship="Self.aa_artigo_fk" FromRole="Artigo" ToRole="Autor_Artigo" />
+          <NavigationProperty Name="Conferencia" Relationship="Self.artigo_conf_fk" FromRole="Artigo" ToRole="Conferencia" />
+          <NavigationProperty Name="FicheiroPDF" Relationship="Self.pdf_fk" FromRole="Artigo" ToRole="FicheiroPDF" />
+          <NavigationProperty Name="Revisor_Artigo" Relationship="Self.ra_artigo_fk" FromRole="Artigo" ToRole="Revisor_Artigo" />
+        </EntityType>
+        <EntityType Name="Autor">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Utilizador" Relationship="Self.autor_fk" FromRole="Autor" ToRole="Utilizador" />
+        </EntityType>
+        <EntityType Name="Autor_Artigo">
+          <Key>
+            <PropertyRef Name="userID" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="conferenceID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="conferenceID" Type="Int32" Nullable="false" />
+          <Property Name="notify_email" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Artigo" Relationship="Self.aa_artigo_fk" FromRole="Autor_Artigo" ToRole="Artigo" />
+          <NavigationProperty Name="Utilizador" Relationship="Self.aa_user_fk" FromRole="Autor_Artigo" ToRole="Utilizador" />
+        </EntityType>
+        <EntityType Name="Conferencia">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ano" Type="Int32" Nullable="false" />
+          <Property Name="acronimo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="data_submissao" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="data_revisao" Type="DateTime" Precision="0" />
+          <Property Name="presidente" Type="Int32" Nullable="false" />
+          <Property Name="nota_minima" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Artigo" Relationship="Self.artigo_conf_fk" FromRole="Conferencia" ToRole="Artigo" />
+          <NavigationProperty Name="Conferencia_Utilizador" Relationship="Self.cu_conf_fk" FromRole="Conferencia" ToRole="Conferencia_Utilizador" />
+          <NavigationProperty Name="Utilizador" Relationship="Self.FK__Conferenc__presi__391958F9" FromRole="Conferencia" ToRole="Utilizador" />
+        </EntityType>
+        <EntityType Name="Conferencia_Utilizador">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" />
+          <Property Name="conferenceID" Type="Int32" Nullable="false" />
+          <Property Name="data_registo" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Conferencia" Relationship="Self.cu_conf_fk" FromRole="Conferencia_Utilizador" ToRole="Conferencia" />
+          <NavigationProperty Name="Utilizador" Relationship="Self.cu_user_fk" FromRole="Conferencia_Utilizador" ToRole="Utilizador" />
+        </EntityType>
+        <EntityType Name="FicheiroPDF">
+          <Key>
+            <PropertyRef Name="file_version" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="conferenceID" />
+          </Key>
+          <Property Name="file_version" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="conferenceID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Artigo" Relationship="Self.pdf_fk" FromRole="FicheiroPDF" ToRole="Artigo" />
+        </EntityType>
+        <EntityType Name="Instituicao">
+          <Key>
+            <PropertyRef Name="nome" />
+          </Key>
+          <Property Name="nome" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="morada" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="pais" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Utilizador" Relationship="Self.Utilizador_Instituicao" FromRole="Instituicao" ToRole="Utilizador" />
+        </EntityType>
+        <EntityType Name="Revisor">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Utilizador" Relationship="Self.revisor_fk" FromRole="Revisor" ToRole="Utilizador" />
+        </EntityType>
+        <EntityType Name="Revisor_Artigo">
+          <Key>
+            <PropertyRef Name="userID" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="conferenceID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="conferenceID" Type="Int32" Nullable="false" />
+          <Property Name="nota" Type="Int32" />
+          <Property Name="texto" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Artigo" Relationship="Self.ra_artigo_fk" FromRole="Revisor_Artigo" ToRole="Artigo" />
+          <NavigationProperty Name="Utilizador" Relationship="Self.ra_user_fk" FromRole="Revisor_Artigo" ToRole="Utilizador" />
+        </EntityType>
+        <EntityType Name="Utilizador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="nome" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Autor" Relationship="Self.autor_fk" FromRole="Utilizador" ToRole="Autor" />
+          <NavigationProperty Name="Autor_Artigo" Relationship="Self.aa_user_fk" FromRole="Utilizador" ToRole="Autor_Artigo" />
+          <NavigationProperty Name="Conferencia" Relationship="Self.FK__Conferenc__presi__391958F9" FromRole="Utilizador" ToRole="Conferencia" />
+          <NavigationProperty Name="Conferencia_Utilizador" Relationship="Self.cu_user_fk" FromRole="Utilizador" ToRole="Conferencia_Utilizador" />
+          <NavigationProperty Name="Revisor" Relationship="Self.revisor_fk" FromRole="Utilizador" ToRole="Revisor" />
+          <NavigationProperty Name="Revisor_Artigo" Relationship="Self.ra_user_fk" FromRole="Utilizador" ToRole="Revisor_Artigo" />
+          <NavigationProperty Name="Instituicao" Relationship="Self.Utilizador_Instituicao" FromRole="Utilizador" ToRole="Instituicao" />
+        </EntityType>
+        <Association Name="aa_artigo_fk">
+          <End Role="Artigo" Type="Self.Artigo" Multiplicity="1" />
+          <End Role="Autor_Artigo" Type="Self.Autor_Artigo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artigo">
+              <PropertyRef Name="ID" />
+              <PropertyRef Name="conferenceID" />
+            </Principal>
+            <Dependent Role="Autor_Artigo">
+              <PropertyRef Name="ID" />
+              <PropertyRef Name="conferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="artigo_conf_fk">
+          <End Role="Conferencia" Type="Self.Conferencia" Multiplicity="1" />
+          <End Role="Artigo" Type="Self.Artigo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conferencia">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Artigo">
+              <PropertyRef Name="conferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="pdf_fk">
+          <End Role="Artigo" Type="Self.Artigo" Multiplicity="1" />
+          <End Role="FicheiroPDF" Type="Self.FicheiroPDF" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artigo">
+              <PropertyRef Name="ID" />
+              <PropertyRef Name="conferenceID" />
+            </Principal>
+            <Dependent Role="FicheiroPDF">
+              <PropertyRef Name="ID" />
+              <PropertyRef Name="conferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ra_artigo_fk">
+          <End Role="Artigo" Type="Self.Artigo" Multiplicity="1" />
+          <End Role="Revisor_Artigo" Type="Self.Revisor_Artigo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artigo">
+              <PropertyRef Name="ID" />
+              <PropertyRef Name="conferenceID" />
+            </Principal>
+            <Dependent Role="Revisor_Artigo">
+              <PropertyRef Name="ID" />
+              <PropertyRef Name="conferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="autor_fk">
+          <End Role="Utilizador" Type="Self.Utilizador" Multiplicity="1" />
+          <End Role="Autor" Type="Self.Autor" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Utilizador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Autor">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="aa_user_fk">
+          <End Role="Utilizador" Type="Self.Utilizador" Multiplicity="1" />
+          <End Role="Autor_Artigo" Type="Self.Autor_Artigo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilizador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Autor_Artigo">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cu_conf_fk">
+          <End Role="Conferencia" Type="Self.Conferencia" Multiplicity="1" />
+          <End Role="Conferencia_Utilizador" Type="Self.Conferencia_Utilizador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conferencia">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Conferencia_Utilizador">
+              <PropertyRef Name="conferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Conferenc__presi__391958F9">
+          <End Role="Utilizador" Type="Self.Utilizador" Multiplicity="1" />
+          <End Role="Conferencia" Type="Self.Conferencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilizador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Conferencia">
+              <PropertyRef Name="presidente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cu_user_fk">
+          <End Role="Utilizador" Type="Self.Utilizador" Multiplicity="1" />
+          <End Role="Conferencia_Utilizador" Type="Self.Conferencia_Utilizador" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Utilizador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Conferencia_Utilizador">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="revisor_fk">
+          <End Role="Utilizador" Type="Self.Utilizador" Multiplicity="1" />
+          <End Role="Revisor" Type="Self.Revisor" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Utilizador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Revisor">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ra_user_fk">
+          <End Role="Utilizador" Type="Self.Utilizador" Multiplicity="1" />
+          <End Role="Revisor_Artigo" Type="Self.Revisor_Artigo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilizador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Revisor_Artigo">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Utilizador_Instituicao">
+          <End Role="Utilizador" Type="Self.Utilizador" Multiplicity="*" />
+          <End Role="Instituicao" Type="Self.Instituicao" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="SI2_T1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Artigo" EntityType="Self.Artigo" />
+          <EntitySet Name="Autor" EntityType="Self.Autor" />
+          <EntitySet Name="Autor_Artigo" EntityType="Self.Autor_Artigo" />
+          <EntitySet Name="Conferencia" EntityType="Self.Conferencia" />
+          <EntitySet Name="Conferencia_Utilizador" EntityType="Self.Conferencia_Utilizador" />
+          <EntitySet Name="FicheiroPDF" EntityType="Self.FicheiroPDF" />
+          <EntitySet Name="Instituicao" EntityType="Self.Instituicao" />
+          <EntitySet Name="Revisor" EntityType="Self.Revisor" />
+          <EntitySet Name="Revisor_Artigo" EntityType="Self.Revisor_Artigo" />
+          <EntitySet Name="Utilizador" EntityType="Self.Utilizador" />
+          <AssociationSet Name="aa_artigo_fk" Association="Self.aa_artigo_fk">
+            <End Role="Artigo" EntitySet="Artigo" />
+            <End Role="Autor_Artigo" EntitySet="Autor_Artigo" />
+          </AssociationSet>
+          <AssociationSet Name="artigo_conf_fk" Association="Self.artigo_conf_fk">
+            <End Role="Conferencia" EntitySet="Conferencia" />
+            <End Role="Artigo" EntitySet="Artigo" />
+          </AssociationSet>
+          <AssociationSet Name="pdf_fk" Association="Self.pdf_fk">
+            <End Role="Artigo" EntitySet="Artigo" />
+            <End Role="FicheiroPDF" EntitySet="FicheiroPDF" />
+          </AssociationSet>
+          <AssociationSet Name="ra_artigo_fk" Association="Self.ra_artigo_fk">
+            <End Role="Artigo" EntitySet="Artigo" />
+            <End Role="Revisor_Artigo" EntitySet="Revisor_Artigo" />
+          </AssociationSet>
+          <AssociationSet Name="autor_fk" Association="Self.autor_fk">
+            <End Role="Utilizador" EntitySet="Utilizador" />
+            <End Role="Autor" EntitySet="Autor" />
+          </AssociationSet>
+          <AssociationSet Name="aa_user_fk" Association="Self.aa_user_fk">
+            <End Role="Utilizador" EntitySet="Utilizador" />
+            <End Role="Autor_Artigo" EntitySet="Autor_Artigo" />
+          </AssociationSet>
+          <AssociationSet Name="cu_conf_fk" Association="Self.cu_conf_fk">
+            <End Role="Conferencia" EntitySet="Conferencia" />
+            <End Role="Conferencia_Utilizador" EntitySet="Conferencia_Utilizador" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Conferenc__presi__391958F9" Association="Self.FK__Conferenc__presi__391958F9">
+            <End Role="Utilizador" EntitySet="Utilizador" />
+            <End Role="Conferencia" EntitySet="Conferencia" />
+          </AssociationSet>
+          <AssociationSet Name="cu_user_fk" Association="Self.cu_user_fk">
+            <End Role="Utilizador" EntitySet="Utilizador" />
+            <End Role="Conferencia_Utilizador" EntitySet="Conferencia_Utilizador" />
+          </AssociationSet>
+          <AssociationSet Name="revisor_fk" Association="Self.revisor_fk">
+            <End Role="Utilizador" EntitySet="Utilizador" />
+            <End Role="Revisor" EntitySet="Revisor" />
+          </AssociationSet>
+          <AssociationSet Name="ra_user_fk" Association="Self.ra_user_fk">
+            <End Role="Utilizador" EntitySet="Utilizador" />
+            <End Role="Revisor_Artigo" EntitySet="Revisor_Artigo" />
+          </AssociationSet>
+          <AssociationSet Name="Utilizador_Instituicao" Association="Self.Utilizador_Instituicao">
+            <End Role="Utilizador" EntitySet="Utilizador" />
+            <End Role="Instituicao" EntitySet="Instituicao" />
+          </AssociationSet>
+          <FunctionImport Name="listCompatibleReviewers" IsComposable="true" ReturnType="Collection(SI2_T1Model.listCompatibleReviewers_Result)">
+            <Parameter Name="conferenceID" Mode="In" Type="Int32" />
+            <Parameter Name="articleID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AcceptSubmissionRate">
+            <Parameter Name="conferencia_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="addReviewerToArticle">
+            <Parameter Name="conferenceID" Mode="In" Type="Int32" />
+            <Parameter Name="articleID" Mode="In" Type="Int32" />
+            <Parameter Name="reviewerID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ChangeSubmission">
+            <Parameter Name="data_corte" Mode="In" Type="DateTime" />
+            <Parameter Name="conferencia_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CreateUtilizador">
+            <Parameter Name="newUser_email" Mode="In" Type="String" />
+            <Parameter Name="user_nome" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteUtilizador">
+            <Parameter Name="user_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="isDateLowerThanCurrentDate">
+            <Parameter Name="date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="isNewDateLowerThanOldDate">
+            <Parameter Name="new_date" Mode="In" Type="DateTime" />
+            <Parameter Name="old_date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="RegistoRevisao">
+            <Parameter Name="user_id" Mode="In" Type="Int32" />
+            <Parameter Name="artigo_id" Mode="In" Type="Int32" />
+            <Parameter Name="conferencia_id" Mode="In" Type="Int32" />
+            <Parameter Name="nota" Mode="In" Type="Int32" />
+            <Parameter Name="texto" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="revisedArticle">
+            <Parameter Name="user_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateAcronimo">
+            <Parameter Name="conferenceID" Mode="In" Type="Int32" />
+            <Parameter Name="newAcronimo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateAllInfoUtilizador">
+            <Parameter Name="user_id" Mode="In" Type="Int32" />
+            <Parameter Name="newUser_email" Mode="In" Type="String" />
+            <Parameter Name="user_nome" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateDataRevisao">
+            <Parameter Name="conferenceID" Mode="In" Type="Int32" />
+            <Parameter Name="date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateDataSubmissao">
+            <Parameter Name="conferenceID" Mode="In" Type="Int32" />
+            <Parameter Name="date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateEmailUtilizador">
+            <Parameter Name="user_id" Mode="In" Type="Int32" />
+            <Parameter Name="newUser_email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateNome">
+            <Parameter Name="conferenceID" Mode="In" Type="Int32" />
+            <Parameter Name="newName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateNomeUtilizador">
+            <Parameter Name="user_id" Mode="In" Type="Int32" />
+            <Parameter Name="user_nome" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateNotaConferencia">
+            <Parameter Name="conferenceID" Mode="In" Type="Int32" />
+            <Parameter Name="nota" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdatePresidente">
+            <Parameter Name="conferenceID" Mode="In" Type="Int32" />
+            <Parameter Name="newPresidentID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateUtilizador">
+            <Parameter Name="user_mail" Mode="In" Type="String" />
+            <Parameter Name="newUser_email" Mode="In" Type="String" />
+            <Parameter Name="user_nome" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UtilizadorToAutor">
+            <Parameter Name="user_mail" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UtilizadorToRevisor">
+            <Parameter Name="user_mail" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="wroteArticle">
+            <Parameter Name="user_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SI2_T1ModelStoreContainer" CdmEntityContainer="SI2_T1Entities">
+          <EntitySetMapping Name="Artigo">
+            <EntityTypeMapping TypeName="SI2_T1Model.Artigo">
+              <MappingFragment StoreEntitySet="Artigo">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="conferenceID" ColumnName="conferenceID" />
+                <ScalarProperty Name="resumo" ColumnName="resumo" />
+                <ScalarProperty Name="data_submetido" ColumnName="data_submetido" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Autor">
+            <EntityTypeMapping TypeName="SI2_T1Model.Autor">
+              <MappingFragment StoreEntitySet="Autor">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Autor_Artigo">
+            <EntityTypeMapping TypeName="SI2_T1Model.Autor_Artigo">
+              <MappingFragment StoreEntitySet="Autor_Artigo">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="conferenceID" ColumnName="conferenceID" />
+                <ScalarProperty Name="notify_email" ColumnName="notify_email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conferencia">
+            <EntityTypeMapping TypeName="SI2_T1Model.Conferencia">
+              <MappingFragment StoreEntitySet="Conferencia">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="ano" ColumnName="ano" />
+                <ScalarProperty Name="acronimo" ColumnName="acronimo" />
+                <ScalarProperty Name="data_submissao" ColumnName="data_submissao" />
+                <ScalarProperty Name="data_revisao" ColumnName="data_revisao" />
+                <ScalarProperty Name="presidente" ColumnName="presidente" />
+                <ScalarProperty Name="nota_minima" ColumnName="nota_minima" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conferencia_Utilizador">
+            <EntityTypeMapping TypeName="SI2_T1Model.Conferencia_Utilizador">
+              <MappingFragment StoreEntitySet="Conferencia_Utilizador">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="conferenceID" ColumnName="conferenceID" />
+                <ScalarProperty Name="data_registo" ColumnName="data_registo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FicheiroPDF">
+            <EntityTypeMapping TypeName="SI2_T1Model.FicheiroPDF">
+              <MappingFragment StoreEntitySet="FicheiroPDF">
+                <ScalarProperty Name="file_version" ColumnName="file_version" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="conferenceID" ColumnName="conferenceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Instituicao">
+            <EntityTypeMapping TypeName="SI2_T1Model.Instituicao">
+              <MappingFragment StoreEntitySet="Instituicao">
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="morada" ColumnName="morada" />
+                <ScalarProperty Name="pais" ColumnName="pais" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Revisor">
+            <EntityTypeMapping TypeName="SI2_T1Model.Revisor">
+              <MappingFragment StoreEntitySet="Revisor">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Revisor_Artigo">
+            <EntityTypeMapping TypeName="SI2_T1Model.Revisor_Artigo">
+              <MappingFragment StoreEntitySet="Revisor_Artigo">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="conferenceID" ColumnName="conferenceID" />
+                <ScalarProperty Name="nota" ColumnName="nota" />
+                <ScalarProperty Name="texto" ColumnName="texto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Utilizador">
+            <EntityTypeMapping TypeName="SI2_T1Model.Utilizador">
+              <MappingFragment StoreEntitySet="Utilizador">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Utilizador_Instituicao" TypeName="SI2_T1Model.Utilizador_Instituicao" StoreEntitySet="Utilizador_Instituicao">
+            <EndProperty Name="Utilizador">
+              <ScalarProperty Name="ID" ColumnName="userID" />
+            </EndProperty>
+            <EndProperty Name="Instituicao">
+              <ScalarProperty Name="nome" ColumnName="nome_instituicao" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionName="SI2_T1Model.Store.listCompatibleReviewers" FunctionImportName="listCompatibleReviewers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SI2_T1Model.listCompatibleReviewers_Result">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AcceptSubmissionRate" FunctionName="SI2_T1Model.Store.AcceptSubmissionRate" />
+          <FunctionImportMapping FunctionImportName="addReviewerToArticle" FunctionName="SI2_T1Model.Store.addReviewerToArticle" />
+          <FunctionImportMapping FunctionImportName="ChangeSubmission" FunctionName="SI2_T1Model.Store.ChangeSubmission" />
+          <FunctionImportMapping FunctionImportName="CreateUtilizador" FunctionName="SI2_T1Model.Store.CreateUtilizador" />
+          <FunctionImportMapping FunctionImportName="DeleteUtilizador" FunctionName="SI2_T1Model.Store.DeleteUtilizador" />
+          <FunctionImportMapping FunctionImportName="isDateLowerThanCurrentDate" FunctionName="SI2_T1Model.Store.isDateLowerThanCurrentDate" />
+          <FunctionImportMapping FunctionImportName="isNewDateLowerThanOldDate" FunctionName="SI2_T1Model.Store.isNewDateLowerThanOldDate" />
+          <FunctionImportMapping FunctionImportName="RegistoRevisao" FunctionName="SI2_T1Model.Store.RegistoRevisao" />
+          <FunctionImportMapping FunctionImportName="revisedArticle" FunctionName="SI2_T1Model.Store.revisedArticle" />
+          <FunctionImportMapping FunctionImportName="UpdateAcronimo" FunctionName="SI2_T1Model.Store.UpdateAcronimo" />
+          <FunctionImportMapping FunctionImportName="UpdateAllInfoUtilizador" FunctionName="SI2_T1Model.Store.UpdateAllInfoUtilizador" />
+          <FunctionImportMapping FunctionImportName="UpdateDataRevisao" FunctionName="SI2_T1Model.Store.UpdateDataRevisao" />
+          <FunctionImportMapping FunctionImportName="UpdateDataSubmissao" FunctionName="SI2_T1Model.Store.UpdateDataSubmissao" />
+          <FunctionImportMapping FunctionImportName="UpdateEmailUtilizador" FunctionName="SI2_T1Model.Store.UpdateEmailUtilizador" />
+          <FunctionImportMapping FunctionImportName="UpdateNome" FunctionName="SI2_T1Model.Store.UpdateNome" />
+          <FunctionImportMapping FunctionImportName="UpdateNomeUtilizador" FunctionName="SI2_T1Model.Store.UpdateNomeUtilizador" />
+          <FunctionImportMapping FunctionImportName="UpdateNotaConferencia" FunctionName="SI2_T1Model.Store.UpdateNotaConferencia" />
+          <FunctionImportMapping FunctionImportName="UpdatePresidente" FunctionName="SI2_T1Model.Store.UpdatePresidente" />
+          <FunctionImportMapping FunctionImportName="UpdateUtilizador" FunctionName="SI2_T1Model.Store.UpdateUtilizador" />
+          <FunctionImportMapping FunctionImportName="UtilizadorToAutor" FunctionName="SI2_T1Model.Store.UtilizadorToAutor" />
+          <FunctionImportMapping FunctionImportName="UtilizadorToRevisor" FunctionName="SI2_T1Model.Store.UtilizadorToRevisor" />
+          <FunctionImportMapping FunctionImportName="wroteArticle" FunctionName="SI2_T1Model.Store.wroteArticle" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
