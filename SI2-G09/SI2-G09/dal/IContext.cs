@@ -32,6 +32,6 @@ namespace DAL
         RevisorRepository Revisores { get; }
         RevisorArtigoRepository RevisorArtigos { get; }
         UtilizadorRepository Utilizadores { get; }
-        UtilizadorInstituicaoRepository UtilizadoInstituicoes { get; }
+        UtilizadorInstituicaoRepository UtilizadorInstituicoes { get; }
     }
 }
